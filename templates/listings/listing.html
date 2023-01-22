@@ -1,0 +1,134 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2>ONE LISTING</h2>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            This is some text within a card body.
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+          <h4>Instrument Details</h4>
+      </div>
+
+
+
+
+      <div class="card-body">
+        <h5 class="card-title">Tag: {{ listing.tag }}</h5>
+          <br>
+          <div class="fluid">
+              <table class="table table-bordered" style="width: 80%">
+                      <colgroup>
+                           <col span="1" style="width: 15%;">
+                           <col span="1" style="width: 65%;">
+                      </colgroup>
+
+                <tbody>
+                    <tr>
+                      <td>Block: </td>
+                      <td>{{ listing.block }}</td>
+                    </tr>
+                    <tr>
+                      <td>Unit: </td>
+                      <td>{{ listing.unit }}</td>
+                    </tr>
+                    <tr>
+                      <td>Description: </td>
+                      <td>{{ listing.description }}</td>
+                    </tr>
+                    <tr>
+                      <td>Type: </td>
+                      <td>{{ listing.type }}</td>
+                    </tr>
+                    <tr>
+                      <td>Detailed Type: </td>
+                      <td>{{ listing.detailed_type }}</td>
+                    </tr>
+                    <tr>
+                      <td>Special Type: </td>
+                      <td>{{ listing.special_type }}</td>
+                    </tr>
+                    <tr>
+                      <td>LRV: </td>
+                      <td>{{ listing.lrv }}</td>
+                    </tr>
+                    <tr>
+                      <td>URV: </td>
+                      <td>{{ listing.urv }}</td>
+                    </tr>
+                    <tr>
+                      <td>Units: </td>
+                      <td>{{ listing.units }}</td>
+                    </tr>
+                    <tr>
+                      <td>Manufacturer: </td>
+                      <td>{{ listing.manufacturer }}</td>
+                    </tr>
+                    <tr>
+                      <td>Model: </td>
+                      <td>{{ listing.model }}</td>
+                    </tr>
+                    <tr>
+                      <td>Serial_no: </td>
+                      <td>{{ listing.serial_no }}</td>
+                    </tr>
+                    <tr>
+                      <td>System Type: </td>
+                      <td>{{ listing.system_type }}</td>
+                    </tr>
+                    <tr>
+                      <td>Equipment: </td>
+                      <td>{{ listing.equipment }}</td>
+                    </tr>
+                    <tr>
+                      <td>Project: </td>
+                      <td>{{ listing.project }}</td>
+                    </tr>
+                    <tr>
+                      <td>Last Checked: </td>
+                      <td>{{ listing.last_checked }}</td>
+                    </tr>
+                    <tr>
+                      <td>Next Check: </td>
+                      <td>{{ listing.next_check }}</td>
+                    </tr>
+                    <tr>
+                      <td>Active (YES/NO): </td>
+                      <td>{% if listing.is_active %}
+                            YES
+                          {% else %}
+                            NO
+                          {% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td>History: </td>
+                      <td>{{ listing.history }}</td>
+                    </tr>
+                    <tr>
+                      <td>Data Sheet: </td>
+                      <td>{{ listing.data_sheet }}</td>
+                    </tr>
+                </tbody>
+              </table>
+
+          <br>
+        <a href="{% url 'edit' listing.id %}" class="btn btn-primary">EDIT</a>
+        <a href="{% url 'remove' listing.id %}" class="btn btn-danger">REMOVE</a>
+        <a href="{% url 'create-report' listing.id %}" class="btn btn-success">CREATE REPORT</a>
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

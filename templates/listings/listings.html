@@ -1,0 +1,112 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2>ALL LISTINGS</h2>
+<div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <a href="{% url 'insert' %}" class="btn btn-success">INSERT NEW LISTING</a>
+            </div>
+        </div>
+</div>
+<br>
+
+     <!-- My table -->
+    <div class="container-fluid">
+        <!-- Content here -->
+        <table class="table table-bordered">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th scope="col">UNIT</th>
+                    <th scope="col">TAG</th>
+                    <th scope="col">DESCRIPTION</th>
+                    <th scope="col">TYPE</th>
+                    <th scope="col">SPECIAL TYPE</th>
+                    <th scope="col">LRV</th>
+                    <th scope="col">URV</th>
+                    <th scope="col">UNITS</th>
+                    <th scope="col">IS_ACTIVE</th>
+                    <th scope="col">LAST CHECKED</th>
+                    <th scope="col">INTERVAL</th>
+                    <th scope="col">NEXT CHECK</th>
+                    <th scope="col">DETAILS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% if listings %}
+            {% for listing in listings %}
+                    <tr class="table-light">
+{#                      <th scope="row">{{ listing.id }}</th>#}
+                        <td>{{ listing.id }}</td>
+                        <td>{{ listing.unit }}</td>
+                        <td>{{ listing.tag }}</td>
+                        <td>{{ listing.description }}</td>
+                        <td>{{ listing.type }}</td>
+                        <td>{{ listing.special_type }}</td>
+                        <td>{{ listing.lrv }}</td>
+                        <td>{{ listing.urv }}</td>
+                        <td>{{ listing.units }}</td>
+                        <td>{{ listing.is_active }}</td>
+                        <td>{{ listing.last_checked }}</td>
+                        <td>{{ listing.interval }}</td>
+                        <td> {{ listing.next_check }}</td>
+{#                        <td style="font-weight: bold;#}
+{#                                   text-align: right;#}
+{#                                   background-color: rgba(234,209,143,0.99);#}
+{#                                   color: white;">{{ listing.next_check }}</td>#}
+                        <td><a href="{% url 'listing' listing.id %}" class="btn btn-primary btn-block">Details</a></td>
+                    </tr>
+            {% endfor %}
+        {% else %}
+            <p>No listings</p>
+        {% endif %}
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            {% if listings.has_other_pages %}
+              <ul class="pagination">
+                {% if listings.has_previous %}
+                    <li class="page-item">
+                        <a href="?page={{ listings.previous_page_number }}" class="page-link">&laquo;</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&laquo;</a>
+                    </li>
+                {% endif %}
+                {% for i in listings.paginator.page_range %}
+                    {% if listings.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ i }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if listings.has_next %}
+                    <li class="page-item">
+                        <a href="?page={{ listings.next_page_number }}" class="page-link">&raquo;</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&raquo;</a>
+                    </li>
+                {% endif %}
+              </ul>
+            {% endif %}
+        </div>
+      </div>
+{% endblock %}

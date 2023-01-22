@@ -1,0 +1,177 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2>SEARCH</h2>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            This is some text within a card body.
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="container-fluid">
+    <form action="{% url 'search' %}">
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingInputGrid" placeholder="Keyword (Tag or part of tag)" name="keywords" value="{{ values.keywords }}">
+                    <label for="floatingInputGrid">Keywords</label>
+                </div>
+            </div>
+
+{#            <div class="col-md">#}
+{#                <div class="form-floating">#}
+{#                    <input type="text" class="form-select" id="floatingInputGrid" placeholder="Select Block" name="block" list="blocks">#}
+{#                    <datalist id="blocks">#}
+{#                        {% for key, value in blocks_choices.items %}#}
+{#                            <option name='{{ value }}' value="{{ key }}">{{ value }}</option>#}
+{#                        {% endfor %}#}
+{#                    </datalist>#}
+{#                    <label for="floatingInputGrid">Block (All)</label>#}
+{#                </div>#}
+{#            </div>#}
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="block" class="form-select" id="floatingSelectGrid">
+{#                        <option selected="true" disabled="disabled">Block (All)</option>#}
+                        <option value="">Block (All)</option>
+                        {% for key, value in blocks_choices.items %}
+                        <option value="{{ key }}"
+                                {% if key == values.block %}
+                                    selected
+                                {% endif %}
+                        >{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="floatingSelectGrid">Select Block</label>
+                </div>
+            </div>
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="unit" class="form-select" id="floatingSelectGrid">
+{#                        <option selected="true" disabled="disabled">Units (All)</option>#}
+                        <option value="">Units (All)</option>
+                            {% for key, value in units_choices.items %}
+                                <option value="{{ key }}"
+                                    {% if key == values.unit %}
+                                    selected
+                                    {% endif %}
+                                >{{ value }}</option>
+                            {% endfor %}
+                    </select>
+                    <label for="floatingSelectGrid">Select Unit</label>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <button class="btn btn-primary" type="submit">Submit form</button>
+    </form>
+</div>
+
+ <!-- My table -->
+    <div class="container-fluid">
+        <!-- Content here -->
+        <table class="table table-bordered">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th scope="col">UNIT</th>
+                    <th scope="col">TAG</th>
+                    <th scope="col">DESCRIPTION</th>
+                    <th scope="col">TYPE</th>
+                    <th scope="col">SPECIAL TYPE</th>
+                    <th scope="col">LRV</th>
+                    <th scope="col">URV</th>
+                    <th scope="col">UNITS</th>
+                    <th scope="col">IS_ACTIVE</th>
+                    <th scope="col">LAST CHECKED</th>
+                    <th scope="col">INTERVAL</th>
+                    <th scope="col">NEXT CHECK</th>
+                    <th scope="col">DETAILS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% if listings %}
+            {% for listing in listings %}
+                    <tr class="table-light">
+{#                      <th scope="row">{{ listing.id }}</th>#}
+                        <td>{{ listing.id }}</td>
+                        <td>{{ listing.unit }}</td>
+                        <td>{{ listing.tag }}</td>
+                        <td>{{ listing.description }}</td>
+                        <td>{{ listing.type }}</td>
+                        <td>{{ listing.special_type }}</td>
+                        <td>{{ listing.lrv }}</td>
+                        <td>{{ listing.urv }}</td>
+                        <td>{{ listing.units }}</td>
+                        <td>{{ listing.is_active }}</td>
+                        <td>{{ listing.last_checked }}</td>
+                        <td>{{ listing.interval }}</td>
+                        <td> {{ listing.next_check }}</td>
+{#                        <td style="font-weight: bold;#}
+{#                                   text-align: right;#}
+{#                                   background-color: rgba(234,209,143,0.99);#}
+{#                                   color: white;">{{ listing.next_check }}</td>#}
+                        <td><a href="{% url 'listing' listing.id %}" class="btn btn-primary btn-block">Details</a></td>
+                    </tr>
+            {% endfor %}
+        {% else %}
+            <p>No listings</p>
+        {% endif %}
+            </tbody>
+
+        </table>
+    </div>
+
+
+<!-- pagination -->
+    <div class="row">
+        <div class="col-md-12">
+            {% if listings.has_other_pages %}
+              <ul class="pagination">
+                {% if listings.has_previous %}
+                    <li class="page-item">
+                        <a href="?page={{ listings.previous_page_number }}" class="page-link">&laquo;</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&laquo;</a>
+                    </li>
+                {% endif %}
+                {% for i in listings.paginator.page_range %}
+                    {% if listings.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ i }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if listings.has_next %}
+                    <li class="page-item">
+                        <a href="?page={{ listings.next_page_number }}" class="page-link">&raquo;</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&raquo;</a>
+                    </li>
+                {% endif %}
+              </ul>
+            {% endif %}
+        </div>
+      </div>
+
+
+{% endblock %}
+

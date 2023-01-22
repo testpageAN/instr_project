@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} | About us {% endblock %}
+
+{% block content %}
+
+<h2>ABOUT</h2>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            This is some text within a card body.
+        </div>
+    </div>
+</div>
+<br>
+{% if realtors %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for realtor in realtors %}
+        <div class="col">
+            <div class="card h-100">
+              <img src="..." class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{ realtor.name }}</h5>
+                <p class="card-text">{{ realtor.description }}.</p>
+              </div>
+            </div>
+        </div>
+    {% endfor %}
+    <br>
+    {% else %}
+        <div class="col-md-12">
+            <p>No realtors available</p>
+        </div>
+    {% endif %}
+
+    </div>
+
+
+
+{% endblock %}
