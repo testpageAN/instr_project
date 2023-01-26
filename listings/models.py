@@ -1,5 +1,8 @@
 from django.db import models
 from datetime import datetime
+
+from django.db.models import ForeignKey
+
 from realtors.models import Realtor
 
 
@@ -24,10 +27,11 @@ class Listing(models.Model):
     project = models.CharField(max_length=100, blank=True)
     interval = models.IntegerField()
     last_checked = models.DateTimeField(default=datetime.now)
-    next_check = models.DateTimeField()
+    next_check = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     history = models.TextField()
     data_sheet = models.FileField(upload_to='photos/%Y/%m/%d/', blank=True)
+    # report_file = models.ForeignKey(Report, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
         return self.tag

@@ -20,3 +20,5 @@ blocks_choices = {
     'Fuels': 'Fuels',
     'FCC': 'FCC',
 }
+
+control_users = ['alexis', ]

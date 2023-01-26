@@ -1,10 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>INSERT</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container container-fluid">
+
+<form method="POST" enctype="multipart/form-data">
+
+    <!-- Security token -->
+    {% csrf_token %}
+
+    <!-- Using the formset -->
+{#    {{ form.as_p }}#}
+    {{ form|crispy }}
+
+    <input type="submit" value="Submit">
+</form>
+
+
+
+
+
+
+{#<form action="{% url 'insert' %}" method="POST">#}
+{#<form action="" method="POST">#}
+{#    {% csrf_token %}#}
+{#    {% if user.is_authenticated %}#}
+{#        <input type="hidden" name="user_id" value="{{ user.id }}">#}
+{#    {% else %}#}
+{#        <input type="hidden" name="user_id" value="0">#}
+{#    {% endif %}#}
+{#    <input type="hidden" name="realtor_email" value="{{ listing.realtor.email }}">#}
+{#    <input type="hidden" name="listing_id" value="{{ listing.id }}">#}
+{##}
+{#    <div class="mb-3">#}
+{#    <label for="tag" class="form-label">Tag: </label>#}
+{#    <input type="text" class="form-control" id="tag" required>#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="block" class="form-label">Block: </label>#}
+{#    <input type="text" class="form-control" id="block" required>#}
+{#  </div>#}
+{#  <div class="mb-3">#}
+{#    <label for="unit" class="form-label">Unit: </label>#}
+{#    <input type="text" class="form-control" id="unit" required>#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="description" class="form-label">Description: </label>#}
+{#    <input type="text" class="form-control" id="description" required>#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="type" class="form-label">Type: </label>#}
+{#    <input type="text" class="form-control" id="type" required>#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="detailed_type" class="form-label">Detailed Type: </label>#}
+{#    <input type="text" class="form-control" id="detailed_type">#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="special_type" class="form-label">Special Type: </label>#}
+{#    <input type="text" class="form-control" id="special_type">#}
+{#  </div>#}
+{#     <div class="mb-3">#}
+{#    <label for="lrv" class="form-label">LRV: </label>#}
+{#    <input type="text" class="form-control" id="lrv" required>#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="urv" class="form-label">URV: </label>#}
+{#    <input type="text" class="form-control" id="urv" required>#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="units" class="form-label">Units: </label>#}
+{#    <input type="text" class="form-control" id="units" required>#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="manufacturer" class="form-label">Manufacturer: </label>#}
+{#    <input type="text" class="form-control" id="manufacturer">#}
+{#  </div>#}
+{#    <div class="mb-3">#}
+{#    <label for="model" class="form-label">Model: </label>#}
+{#    <input type="text" class="form-control" id="model">#}
+{#  </div>#}
+{#   <div class="mb-3">#}
+{#    <label for="serial_no" class="form-label">Serial_no: </label>#}
+{#    <input type="text" class="form-control" id="serial_no">#}
+{#  </div>#}
+{#   <div class="mb-3">#}
+{#    <label for="system_type" class="form-label">System Type: </label>#}
+{#    <input type="text" class="form-control" id="system_type">#}
+{#  </div>#}
+{#   <div class="mb-3">#}
+{#    <label for="equipment" class="form-label">Equipment: </label>#}
+{#    <input type="text" class="form-control" id="equipment">#}
+{#  </div>#}
+{#   <div class="mb-3">#}
+{#    <label for="project" class="form-label">Project: </label>#}
+{#    <input type="text" class="form-control" id="project">#}
+{#  </div>#}
+{#   <div class="mb-3">#}
+{#    <label for="last_checked" class="form-label">Last Checked: </label>#}
+{#    <input type="date" class="form-control" id="last_checked">#}
+{#  </div>#}
+{#   <div class="mb-3">#}
+{#    <label for="next_check" class="form-label">Next Check: </label>#}
+{#    <input type="date" class="form-control" id="next_check">#}
+{#  </div>#}
+{#  <div class="form-check">#}
+{#      <input class="form-check-input" type="checkbox" value="" id="is_active" required>#}
+{#      <label class="form-check-label" for="is_active">#}
+{#        Is Active#}
+{#      </label>#}
+{#  </div>#}
+{##}
+{#  <div class="mb-3">#}
+{#    <label for="history" class="form-label">History: </label>#}
+{#    <textarea class="form-control" id="history" rows="3"></textarea>#}
+{#  </div>#}
+{#  <div class="input-group mb-3">#}
+{#    <label class="input-group-text" for="data_sheet">Data Sheet: </label>#}
+{#    <input type="file" class="form-control" id="data_sheet">#}
+{#  </div>#}
+{##}
+{#<div class="d-grid gap-2 col-6 mx-auto">#}
+{#  <input type="submit" class="btn btn-success btn-lg" value="Submit">#}
+{#</div>#}
+{#</form>#}
+
+
+
+</div>
+
+{% endblock %}

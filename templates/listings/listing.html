@@ -14,6 +14,9 @@
 </div>
 <br>
 
+        <!-- ALERTS -->
+    {% include "partials/_alerts.html" %}
+
 <div class="container-fluid">
     <div class="card">
       <div class="card-header">
@@ -122,9 +125,15 @@
               </table>
 
           <br>
+
         <a href="{% url 'edit' listing.id %}" class="btn btn-primary">EDIT</a>
-        <a href="{% url 'remove' listing.id %}" class="btn btn-danger">REMOVE</a>
+
+        <a href="{% url 'remove' listing.id  %}" class="btn btn-danger" >REMOVE</a>
+
         <a href="{% url 'create-report' listing.id %}" class="btn btn-success">CREATE REPORT</a>
+
+        <a href="{% url 'upload-report' listing.id %}" class="btn btn-success">UPLOAD REPORT</a>
+
       </div>
     </div>
 </div>

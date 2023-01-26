@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br>
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="alert alert-danger" role="alert">
+            <h4>Are you sure you want to delete "{{ listing }}"?</h4>
+        </div>
+
+        <div class="card-body">
+            <div class="fluid">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div>
+                    <input class="btn btn-danger" type="submit" value="Confirm Delete">
+                    <a href="{% url 'listing' listing.id %}" class="btn btn-primary">CANCEL</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+   {% endblock %}
+
+
+
+
+
+
+{#    {% else %}#}
+{#    <div class="alert alert-danger" role="alert">#}
+{#    <h4>No permission for deleting "{{ listing }}"?</h4>#}
+{#</div>#}
+
+{#<div class="card-body">#}
+{#    <div class="fluid">#}
+{#        <a href="{% url 'listing' listing.id %}" class="btn btn-primary">CANCEL</a>#}
+{#    </div>#}
+{#</div>#}
+
+{#    {% endif %}#}
+
+
+
+
+
+
+
