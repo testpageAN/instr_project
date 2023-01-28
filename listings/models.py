@@ -47,7 +47,7 @@ class Report(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.name:
-            self.name = self.date_created
+            self.name = f"{self.listing}--{self.date_created}"
         super().save(*args, **kwargs)
 
     def __str__(self):

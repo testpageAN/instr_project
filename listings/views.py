@@ -1,4 +1,8 @@
 from django.shortcuts import render, get_object_or_404
+import os
+
+from django.utils.html import linebreaks
+
 from .models import Listing
 import datetime
 from datetime import timedelta
@@ -14,12 +18,14 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 # from .forms import ListingForm, PostFileForm
 # from .forms import ListingForm, FileForm
-from .forms import ListingForm, UploadReportForm, ReportForm
+from .forms import ListingForm, UploadReportForm, ReportForm, CreateReportForm
 from .models import Report
 
 from django.contrib import messages, auth
 
 from django.contrib.auth.models import User
+
+from openpyxl import Workbook
 
 
 #Create your views here.
@@ -174,12 +180,18 @@ def remove(request, listing_id):
 
     return render(request, "listings/listing_confirm_delete.html", context)
 
-
+###################################################################################################
+####################################################################################################
+###################################################################################################
+####################################################################################################
 #################################################################################################
-def create_report(request, listing_id):
-    return render(request, 'listings/create-report.html',)
 
-
+    # return render(request, 'listings/create-report.html',)
+###################################################################################################
+####################################################################################################
+###################################################################################################
+####################################################################################################
+ ###################################################################################################
 ####################################################################################################
 def upload_report(request, listing_id):
     # context = {}
@@ -194,7 +206,8 @@ def upload_report(request, listing_id):
             listing.save()
             form.save()
             messages.success(request, f'{listing} was UPDATED')
-            return redirect('listings')
+            # return redirect('listings')
+            return redirect('listing', listing_id)
             # return render(request, 'listings/listing.html', context)
     else:
         form = ReportForm()
@@ -206,123 +219,93 @@ def upload_report(request, listing_id):
     return render(request, 'listings/upload-report.html', context)
 
 
-####################################################################################################
-# def upload_report(request, listing_id):
-#     context = {}
-#     listing = get_object_or_404(Listing, id=listing_id)
-#     context = {
-#             'listing': listing,
-#         }
-#     if request.method == 'POST':
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             # instance = ListingForm(request.FILES['file'])
-#             # instance.save()
-#             # listing.file = ListingForm(request.FILES['file'])
-#             listing.file = request.POST.get('{file}')
-#             listing.save()
-#             print(listing.file)
-#             messages.success(request, f'{listing} was UPDATED')
-#             # return redirect('upload-report')
-#             return render(request, 'listings/listing.html', context)
-#     else:
-#         form = UploadFileForm()
-#     return render(request, 'listings/upload-report.html', {'form': form})
-    # return render(request, 'listings/upload-report.html', context)
-    # return render(request, 'listings/upload-report.html',)
-########################################################################################################
-#https://stackoverflow.com/questions/57183002/filefield-not-working-with-arrayfield-in-django
-#https://code.djangoproject.com/attachment/ticket/25756/multiple.py
-
-
-
-
-################################################################################################################
-# def upload_file(request):
-#     if request.method == 'POST':
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             instance = ModelWithFileField(file_field=request.FILES['file'])
-#             instance.save()
-#             return HttpResponseRedirect('/success/url/')
-#     else:
-#         form = UploadFileForm()
-#     return render(request, 'upload.html', {'form': form})
-
-
-
-
-#################################################################################################################
-# def upload_file(request):
-#     if request.method == 'POST':
-#         form = ModelFormWithFileField(request.POST, request.FILES)
-#         if form.is_valid():
-#             # file is saved
-#             form.save()
-#             return HttpResponseRedirect('/success/url/')
-#     else:
-#         form = ModelFormWithFileField()
-#     return render(request, 'upload.html', {'form': form})
-
-
-##################################################################################################################
-
-########################################################################
-    # context = {}
-    # # fetch the object related to passed id
-    # listing = get_object_or_404(Listing, id=listing_id)
-    # context = {
-    #     'listing': listing,
-    # }
-    # form = ListingForm(request.POST or None, instance=listing)
-    # # save the data from the form and redirect to detail_view
-    # if form.is_valid():
-    #     form.save()
-    #     messages.success(request, f'{listing} was UPDATED')
-    #     # return redirect("listing")
-    #     return render(request, "listings/listing.html", context)
-    #
-    # # add form dictionary to context
-    # context["form"] = form
-    #
-    # # return render(request, 'listings/listing.html', context)
-    # return render(request, "listings/edit.html", context)
-###############################################################################
-
-# def upload_report(request, listing_id):
-#     listing = get_object_or_404(Listing, id=listing_id)
-#     if request.method == 'POST':
-#         form = FileForm(request.POST or None, request.FILES or None)
-#         files = request.FILES.getlist('file')
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.author = request.user
-#             # add everything you want to add here##############################να προσθεω αρχειο ή κατι;
-#             listing.file = files
-#             post.save()
-#             if files:  # check if user has uploaded some files
-#                 for f in files:
-#                     File.objects.create(post=post, file=f)
-#             return redirect('upload_report')
-#     else:
-#         form = FileForm()
-#     return render(request, 'listings/upload-report.html', {'form': form})
-
-
-# def upload_report(request, listing_id):
+#######################################################################################################
+## λειτουργει χωρις το upload του file
+##
+#######################################################################################################
+# def create_report(request, listing_id):
 #     listing = get_object_or_404(Listing, id=listing_id)
 #     context = {
 #         'listing': listing,
 #     }
+#     old_history = listing.history
+#     form = CreateReportForm(request.POST or None, instance=listing)
 #     if request.method == 'POST':
-#         form = FileForm(request.POST, request.FILES)
 #         if form.is_valid():
-#
-#             instance = File(file=request.FILES['file'])
-#             instance.save()
-#             # return redirect('upload-report')
-#             return render(request, 'listings/listing.html', context)
+#             new_history = request.POST.get('history')
+#             listing.history = old_history + '\n\n' + new_history
+#             wb = Workbook()
+#             ws = wb.active
+#             ws['A4'] = listing.tag
+#             ws['A6'] = listing.history
+#             wb.save('my_first_report6.xlsx')
+#             #file = 'my_first_report6.xlsx'
+#             update_last_checked(listing)
+#             listing.save()
+#             # form.save()
+#             # messages.success(request, f'{listing} report was created')
+#             messages.success(request, f'{listing} report was created')
+#             return redirect('listings')
+#             # return render(request, 'listings/listing.html', context)
 #     else:
-#         form = FileForm()
-#     return render(request, 'listings/upload-report.html', {'form': form})
-    # return render(request, 'listings/upload-report.html', context)
+#         form = CreateReportForm()
+#         context = {
+#             'listing': listing,
+#             'form': form,
+#         }
+#
+#     return render(request, 'listings/create-report.html', context)
+
+##########################################################################################################
+##    TEST
+##########################################################################################################
+def create_report(request, listing_id):
+    listing = get_object_or_404(Listing, id=listing_id)
+    context = {
+        'listing': listing,
+    }
+    old_history = listing.history
+    form = CreateReportForm(request.POST or None, instance=listing)
+    if request.method == 'POST':
+        if form.is_valid():
+            new_history = request.POST.get('history')
+            listing.history = old_history + '\n\n' + new_history
+            wb = Workbook()
+            ws = wb.active
+            ws['A4'] = listing.tag
+            ws['A6'] = listing.history
+            wb.save('my_first_report16.xlsx')
+            file = 'my_first_report16.xlsx'
+            update_last_checked(listing)
+            listing.save()
+            new_report = Report(listing=listing, file=file)
+            new_report.save()
+            context = {
+                'listing': listing,
+                # 'file': file,
+                # 'new_report': new_report,
+            }
+            messages.success(request, f'{listing} report was created and uploaded!!!')
+            # return redirect('listings')
+            return redirect('listing', listing_id)
+            # return render(request, 'listings/listings.html', context)
+
+    else:
+        form = CreateReportForm()
+        context = {
+            'listing': listing,
+            'form': form,
+        }
+    return render(request, 'listings/create-report.html', context)
+
+
+
+
+########################################################################################################
+
+#https://stackoverflow.com/questions/57183002/filefield-not-working-with-arrayfield-in-django
+#https://code.djangoproject.com/attachment/ticket/25756/multiple.py
+
+################################################################################################################
+
+

@@ -11,6 +11,13 @@ class ListingForm(forms.ModelForm):
         # fields = []
 
 
+class CreateReportForm(forms.ModelForm):
+    class Meta:
+        model = Listing
+        # fields = '__all__'
+        fields = ['realtor', ]
+
+
 class ReportForm(forms.ModelForm):
     class Meta:
         model = Report

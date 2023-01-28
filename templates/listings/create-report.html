@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>CREATE REPORT</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br>
+
+<div class="container-fluid">
+    <div class="card">
+
+
+<div class="card-body">
+    <div class="fluid">
+
+
+<div class="main">
+    <!-- Create a Form -->
+    <form method="POST" enctype="multipart/form-data">
+        <!-- Security token by Django -->
+        {% csrf_token %}
+        <!-- form as paragraph -->
+{#        {{ form.as_p }}#}
+        {{ form|crispy }}
+
+                                                <div id="div_id_history" class="form-group">
+                                                    <label for="id_history" class=" requiredField">History<span class="asteriskField">*</span> </label>
+                                                        <div>
+                                                            <textarea name="history" cols="40" rows="10" class="textarea form-control" required id="id_history"></textarea>
+                                                        </div>
+                                                </div>
+
+
+        <input type="submit" value="CREATE REPORT">
+    </form>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+
+{% endblock %}
