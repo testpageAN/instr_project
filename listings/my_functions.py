@@ -9,3 +9,9 @@ def update_next_check(listings):
         listing.delta_days = (listing.next_check.date() - datetime.date.today()).days
 
     return listings
+
+
+def update_last_checked(listing):
+    listing.last_checked = datetime.date.today()
+
+    return listing

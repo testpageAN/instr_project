@@ -118,9 +118,27 @@
                       <td>{{ listing.history }}</td>
                     </tr>
                     <tr>
-                      <td>Data Sheet: </td>
-                      <td>{{ listing.data_sheet }}</td>
+                        {% if listing.data_sheet %}
+                          <td>Data Sheet: </td>
+                          <td><a href="{{listing.data_sheet.url}}">{{ listing.data_sheet }}</a></td>
+                        {% else %}
+                            <td>Data Sheet: </td>
+                          <td>NO DATA SHEET</td>
+                        {% endif %}
                     </tr>
+                                            {% if reports %}
+                                            {% for report in reports %}
+                                            <tr>
+                                                  <td>Report: </td>
+                                                  <td><a href="{{ report.file.url }}">{{ report.file }}</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                  <td>Report: </td>
+                                                  <td>No Report available</td>
+                                                </tr>
+                                            {% endif %}
                 </tbody>
               </table>
 

@@ -1,8 +1,10 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
 
-from django.db.models import ForeignKey
-
+from django.db.models import ForeignKey, DO_NOTHING
+from django.core.exceptions import ValidationError
 from realtors.models import Realtor
 
 
@@ -31,7 +33,30 @@ class Listing(models.Model):
     is_active = models.BooleanField(default=True)
     history = models.TextField()
     data_sheet = models.FileField(upload_to='photos/%Y/%m/%d/', blank=True)
-    # report_file = models.ForeignKey(Report, on_delete=models.DO_NOTHING, blank=True, null=True)
+    # file = ArrayField(models.FileField(upload_to='reports_files/%Y/%m/%d/', null=True, blank=True), null=True, blank=True)
 
     def __str__(self):
         return self.tag
+
+
+class Report(models.Model):
+    listing = models.ForeignKey(Listing, related_name='reports', on_delete=DO_NOTHING, null=True)
+    name = models.CharField(max_length=50, null=True, blank=True)
+    date_created = models.DateTimeField(default=datetime.now)
+    file = models.FileField(blank=True, upload_to='reports_files/%Y/%m/%d/', verbose_name="Files")#, validators=[validate_file_size], help_text="Allowed size is 5MB")
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = self.date_created
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.date_created}'
+
+
+
+
+
+
+
+

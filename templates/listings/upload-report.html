@@ -16,13 +16,34 @@
 
 <div class="main">
     <!-- Create a Form -->
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <!-- Security token by Django -->
         {% csrf_token %}
         <!-- form as paragraph -->
-{#        {{ form|crispy.as_p }}#}
-        {{ form|crispy }}
-        <input type="submit" value="Update">
+{#        {{ form.as_p }}#}
+{#        {{ form|crispy }}#}
+
+        <div id="div_id_listing" class="form-group">
+            <input type="hidden" name="listing" class="form-control" id="id_listing" value="{{ listing.id }}">
+{#            <label for="id_listing" class=" requiredField">Listing<span class="asteriskField">*</span> </label>#}
+{#            <div>#}
+{#                <select name="listing" class="select form-control" required id="id_listing">#}
+{#                <option value="" selected>---------</option> <option value="{{ listing.id }}">{{ listing.tag }}</option>#}
+{#                </select>#}
+{#            </div>#}
+            <input type="hidden" name="listing" class="form-control" id="id_listing" value="{{ listing.id }}">
+        </div>
+        <div id="div_id_file" class="form-group"> <label for="id_file" class="">Files</label>
+            <div>
+                <input type="file" name="file" class="clearablefileinput form-control-file" id="id_file">
+            </div>
+        </div>
+
+
+
+
+
+        <input type="submit" value="Upload file">
     </form>
 </div>
 
