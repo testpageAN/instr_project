@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 import os
+from django.conf import settings
 
 from django.utils.html import linebreaks
 
+
 from .models import Listing
 import datetime
-from datetime import timedelta
+from datetime import timedelta, date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .my_functions import update_next_check, update_last_checked
 from django.views.generic.detail import DetailView
@@ -18,14 +20,20 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 # from .forms import ListingForm, PostFileForm
 # from .forms import ListingForm, FileForm
-from .forms import ListingForm, UploadReportForm, ReportForm, CreateReportForm
-from .models import Report
+from .forms import ListingForm, UploadReportForm, ReportForm, CreateReportForm, FullReportForm
+from .models import Report, FullReport
 
 from django.contrib import messages, auth
 
 from django.contrib.auth.models import User
 
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
+from tempfile import NamedTemporaryFile
+
+from pathlib import Path
+from django.core.files import File
+
+import io
 
 
 #Create your views here.
@@ -58,10 +66,12 @@ def listing(request, listing_id):
 
     fields = Listing._meta.get_fields()
     reports = Report.objects.all().filter(listing_id=listing_id)
+    full_reports = FullReport.objects.all().filter(listing_id=listing_id)
 
     context = {
         'listing': listing,
         'reports': reports,
+        'full_reports': full_reports,
     }
     return render(request, 'listings/listing.html', context)
 
@@ -181,17 +191,10 @@ def remove(request, listing_id):
     return render(request, "listings/listing_confirm_delete.html", context)
 
 ###################################################################################################
-####################################################################################################
-###################################################################################################
-####################################################################################################
 #################################################################################################
 
     # return render(request, 'listings/create-report.html',)
 ###################################################################################################
-####################################################################################################
-###################################################################################################
-####################################################################################################
- ###################################################################################################
 ####################################################################################################
 def upload_report(request, listing_id):
     # context = {}
@@ -257,51 +260,214 @@ def upload_report(request, listing_id):
 #     return render(request, 'listings/create-report.html', context)
 
 ##########################################################################################################
-##    TEST
+##    TEST   ΛΕΙΤΟΥΡΓΕΙ ΟΧΙ ΤΕΛΕΙΑ ΟΧΙ PYTHONIC
 ##########################################################################################################
+# def create_report(request, listing_id):
+#     listing = get_object_or_404(Listing, id=listing_id)
+#     context = {
+#         'listing': listing,
+#     }
+#     old_history = listing.history
+#     form = CreateReportForm(request.POST or None, instance=listing)
+#     if request.method == 'POST':
+#         if form.is_valid():
+#             new_history = request.POST.get('history')
+#             listing.history = old_history + '\n\n' + new_history
+#             wb = Workbook()
+#             ws = wb.active
+#             ws['A4'] = listing.tag
+#             ws['A6'] = listing.history
+#             wb.save('my_first_report16.xlsx')
+#             file = 'my_first_report16.xlsx'
+#             update_last_checked(listing)
+#             listing.save()
+#             new_report = Report(listing=listing, file=file)
+#             new_report.save()
+#             context = {
+#                 'listing': listing,
+#                 # 'file': file,
+#                 # 'new_report': new_report,
+#             }
+#             messages.success(request, f'{listing} report was created and uploaded!!!')
+#             # return redirect('listings')
+#             return redirect('listing', listing_id)
+#             # return render(request, 'listings/listings.html', context)
+#
+#     else:
+#         form = CreateReportForm()
+#         context = {
+#             'listing': listing,
+#             'form': form,
+#         }
+#     return render(request, 'listings/create-report.html', context)
+
+########################################################################################################
+## TEST 2
+########################################################################################################
+########################################################################################################
+########################################################################################################
+########################################################################################################
+########################################################################################################
+########################################################################################################
+########################################################################################################
+########################################################################################################
+########################################################################################################
+########################################################################################################
 def create_report(request, listing_id):
-    listing = get_object_or_404(Listing, id=listing_id)
+    listing = get_object_or_404(Listing, pk=listing_id)
     context = {
         'listing': listing,
     }
     old_history = listing.history
-    form = CreateReportForm(request.POST or None, instance=listing)
+
     if request.method == 'POST':
+        # form = FullReportForm(request.POST or None, instance=listing)
+        form = FullReportForm(request.POST)
         if form.is_valid():
-            new_history = request.POST.get('history')
-            listing.history = old_history + '\n\n' + new_history
+            new_report = form.save()           #  τα θελω
+            comments = new_report.comments      #  τα θελω
+            listing.history = old_history + '\n\n' + comments # τα θελω
             wb = Workbook()
+            wb = load_workbook(filename=r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample.xlsx')
             ws = wb.active
-            ws['A4'] = listing.tag
-            ws['A6'] = listing.history
-            wb.save('my_first_report16.xlsx')
-            file = 'my_first_report16.xlsx'
+            ws['F7'] = listing.tag
+            ws['B48'] = comments
+            # filepath = r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample11A.xlsx'
+            # filepath = 'Certificate_sample10009.xlsx'
+            now = str(datetime.datetime.now())
+            today = date.today()
+            d1 = str(today.strftime("%Y/%m/%d"))
+            # print(today)
+            # filepath = "C:\\Users\\ALEXIS\\OneDrive\\PYTHON-LESSONS\\DJANGO-ALL\\instruments_project\\media\\excel_files\\" + d1 + "\\" + listing.tag
+            # filepath1 = r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files'
+            # filepath = filepath1 + "\\" + listing.tag + "\\" + d1 + '.xlsx' # 'Certificate_sample14A.xlsx'
+            wb.save(filename=filepath)
+            wb.close()
+            # f = open(r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample10A.xlsx')
+            # new_report.file.save(new_name, File(f))
+            # new_report.file = Path(filepath)
+            #f = open('Certificate_sample11A.xlsx', 'rb').read()
+
+
+
+            # new_report.file.save(new_name, File(f))
+            # new_report = FullReport.objects.create(listing=listing)
+            # new_report = FullReport(listing=listing)
+            new_report.listing = listing
+            new_report.file = 'reports_files/2023/01/31/Certificate_sample10A.xlsx'
+            new_report.save()
+
+            # new_report.update(listing=listing)
             update_last_checked(listing)
             listing.save()
-            new_report = Report(listing=listing, file=file)
-            new_report.save()
-            context = {
-                'listing': listing,
-                # 'file': file,
-                # 'new_report': new_report,
-            }
-            messages.success(request, f'{listing} report was created and uploaded!!!')
-            # return redirect('listings')
+
+            my_report = FullReport.objects.all().filter(listing_id=listing_id).order_by('id')[0]
+            # my_report = FullReport.objects.get(listing_id)
+            # my_report = get_object_or_404(FullReport, pk=listing.fullreport.id)
+            print('')
+            print(my_report.file.name) # reports_files/2023/01/31/Certificate_sample10A.xlsx
+            print(my_report.file.path) # C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\reports_files\2023\01\31\Certificate_sample10A.xlsx
+            print(my_report.file)      # reports_files/2023/01/31/Certificate_sample10A.xlsx
+            print(my_report.file.url)  # /media/reports_files/2023/01/31/Certificate_sample10A.xlsx
+
+
+            # new_report.file.path = 'Certificate_sample14A.xlsx' #################################################################
+            # new_report.save()
+            # path = Path('Certificate_sample12A.xlsx')
+            # with path.open(mode='rb') as f:
+            #     new_report.file = File(f, name=path.name)
+                # new_report.save()
+            ###############################################################################################
+            # alli mia prospaueia
+            # f = open(r'Certificate_sample13A.xlsx')
+            # myfile = File(f)
+            #
+            # new_report.file.save(r'Certificate_sample133333333A.xlsx', myfile)
+            #
+
+
+
+
+
+            # from django.core.files import File
+            # from openpyxl import Workbook
+            # from openpyxl.writer.excel import save_virtual_workbook
+            #
+            # class Order1(View):
+            #     def post(self, request, *args, **kwargs):
+            #         form = self.form_class(request.POST)
+            #         if form.is_valid():
+            #             obj = form.save(commit=False)
+            #
+            #             # Creating sheet
+            #             book = Workbook()
+            #             sheet = book.active
+            #             sheet['A1'] = 56
+            #             sheet['A2'] = 43
+            #             now = time.strftime("%x")
+            #             sheet['A3'] = now
+            #
+            #             # Calling model field instance - What im doing wrong here?
+            #             book.save("sample.xlsx")
+            #             with open('sample.xlsx', 'rb') as f:
+            #                 obj.attachment.save("sample.xlsx", File(f), save=False)
+            #
+            #             # Saving model instance
+            #             obj.save()
+            #
+            #             # Some return - required for AJAX
+            #             return JsonResponse({"status": "OK"})
+
+
+            #################################################################################################
+
+
+
+
+            #new_report.file = f
+            # new_report.listing = listing
+
+
+            # print(new_report.file)
+
+            # with NamedTemporaryFile() as tmp:
+            #     wb.save(tmp.name)
+            #     tmp.seek(0)
+            #     stream = tmp.read()
+            # print(type(stream))
+            # print(stream)
+            # now = str(datetime.datetime.now())
+            # today = date.today()
+            # d1 = str(today.strftime("%Y/%m/%d"))
+            # print(today)
+            # filepath = "C:\\Users\\ALEXIS\\OneDrive\\PYTHON-LESSONS\\DJANGO-ALL\\instruments_project\\media\\excel_files\\" + d1 + "\\" + listing.tag
+            # wb.save(r'D:\folder\folder\folder\Filename.xlsx')
+            # wb.save(filename=filepath)
+            # file = 'my_certificate100.xlsx'
+            # new_report = FullReport(listing=listing)#, file=wb)
+            # new_report.file = wb
+            # wb.close()
+
+
+            # context = {
+            #     'listing': listing,
+            #     #'form': form,
+            #     'new_report': new_report,
+            # }
+            messages.success(request, f'{listing}: FULL report {new_report} was created and uploaded!!!')
             return redirect('listing', listing_id)
-            # return render(request, 'listings/listings.html', context)
+            # return render(request, 'listings/listing.html', context)
 
     else:
-        form = CreateReportForm()
+        form = FullReportForm()
         context = {
             'listing': listing,
             'form': form,
         }
     return render(request, 'listings/create-report.html', context)
 
+################################################################################################
 
-
-
-########################################################################################################
 
 #https://stackoverflow.com/questions/57183002/filefield-not-working-with-arrayfield-in-django
 #https://code.djangoproject.com/attachment/ticket/25756/multiple.py

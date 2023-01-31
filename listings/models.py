@@ -51,7 +51,50 @@ class Report(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.date_created}'
+        return f'{self.listing}------{self.date_created}'
+
+
+class FullReport(models.Model):
+    ACTIONS = (
+        ('YES', 'YES'),
+        ('YES/TEMPORARY', 'YES/TEMPORARY'),
+        ('NO', 'NO'),
+        ('N/A', 'N/A'),
+        ('NOT CHECKED', 'NOT CHECKED')
+    )
+
+    listing = models.ForeignKey(Listing, related_name='fullreports', on_delete=DO_NOTHING, null=True)
+    name = models.CharField(max_length=50, null=True, blank=True)
+    date_created = models.DateTimeField(default=datetime.now)
+    file = models.FileField(blank=True, upload_to='reports_files/%Y/%m/%d/', verbose_name="Files")#, storage='reports_files/%Y/%m/%d/')
+    # file = models.FilePathField(path=r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files')
+    # file = models.FileField(blank=True)
+    output_0_before_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_25_before_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_50_before_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_75_before_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_100_before_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_0_after_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_25_after_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_50_after_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_75_after_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    output_100_after_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    manifold_correct = models.CharField(max_length=15, choices=ACTIONS, null=True, blank=True)
+    ferrules_correct = models.CharField(max_length=15, choices=ACTIONS, null=True, blank=True)
+    seal_correct = models.CharField(max_length=15, choices=ACTIONS, null=True, blank=True)
+    mounting_correct = models.CharField(max_length=15, choices=ACTIONS, null=True, blank=True)
+    cable_gland_correct = models.CharField(max_length=15, choices=ACTIONS, null=True, blank=True)
+    insulation_correct = models.CharField(max_length=15, choices=ACTIONS, null=True, blank=True)
+    general_state_correct = models.CharField(max_length=15, choices=ACTIONS, null=True, blank=True)
+    comments = models.TextField()
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = f"{self.listing}--{self.date_created}"
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.listing}------{self.date_created}'
 
 
 

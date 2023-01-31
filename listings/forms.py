@@ -1,6 +1,7 @@
 from django.forms import ModelForm
-from .models import Listing, Report
+from .models import Listing, Report, FullReport
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 
 # Create the form class.
@@ -38,6 +39,25 @@ class UploadReportForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = ['date_created', 'file']
+
+
+class FullReportForm(forms.ModelForm):
+    class Meta:
+        model = FullReport
+        # fields = '__all__'
+        fields = ['comments']
+        # labels = {
+        #     'name': _('Writer'),
+        # }
+        # help_texts = {
+        #     'name': _('Some useful help text.'),
+        # }
+        # error_messages = {
+        #     'name': {
+        #         'max_length': _("This writer's name is too long."),
+        #     },
+        # }
+
 
 
 # class UploadReportForm(ListingForm):

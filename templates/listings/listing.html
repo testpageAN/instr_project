@@ -139,6 +139,22 @@
                                                   <td>No Report available</td>
                                                 </tr>
                                             {% endif %}
+
+                                            {% if full_reports %}
+                                            {% for report in full_reports %}
+                                            <tr>
+                                                  <td>F-Report: </td>
+                                                  <td><a href="{{ report.file.url }}">{{ report.file.name }}</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                  <td>F-Report: </td>
+                                                  <td>No F-Report available</td>
+                                                </tr>
+                                            {% endif %}
+
+
                 </tbody>
               </table>
 
