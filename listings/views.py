@@ -4,7 +4,6 @@ from django.conf import settings
 
 from django.utils.html import linebreaks
 
-
 from .models import Listing
 import datetime
 from datetime import timedelta, date
@@ -30,6 +29,7 @@ from django.contrib.auth.models import User
 from openpyxl import Workbook, load_workbook
 from tempfile import NamedTemporaryFile
 
+import pathlib
 from pathlib import Path
 from django.core.files import File
 
@@ -46,7 +46,9 @@ import io
 
 def index(request):
     # listings = Listing.objects.order_by('unit')
-    listings = Listing.objects.order_by('tag')
+    order_by = request.GET.get('order_by', 'defaultOrderField')
+    listings = Listing.objects.order_by(order_by)
+    # listings = Listing.objects.order_by('tag')
     update_next_check(listings)
 
     paginator = Paginator(listings, 4)
@@ -115,6 +117,7 @@ def search(request):
         'values': request.GET
     }
     return render(request, 'listings/search.html', context)
+
 
 #################################################################################
 def edit(request, listing_id):
@@ -189,6 +192,7 @@ def remove(request, listing_id):
                 return redirect("listings")
 
     return render(request, "listings/listing_confirm_delete.html", context)
+
 
 ###################################################################################################
 #################################################################################################
@@ -339,8 +343,11 @@ def create_report(request, listing_id):
             d1 = str(today.strftime("%Y/%m/%d"))
             # print(today)
             # filepath = "C:\\Users\\ALEXIS\\OneDrive\\PYTHON-LESSONS\\DJANGO-ALL\\instruments_project\\media\\excel_files\\" + d1 + "\\" + listing.tag
-            # filepath1 = r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files'
+            # filepath1 = 'C:/Users/ALEXIS/OneDrive/PYTHON-LESSONS/DJANGO-ALL/instruments_project/media/excel_files'
             # filepath = filepath1 + "\\" + listing.tag + "\\" + d1 + '.xlsx' # 'Certificate_sample14A.xlsx'
+            # filepath = settings.MEDIA_ROOT + "/" + listing.tag + '.xlsx' #
+            pathlib.Path(settings.MEDIA_ROOT + '/report_files/' + d1 + '/').mkdir(parents=True, exist_ok=True)
+            filepath = settings.MEDIA_ROOT + '/report_files/' + d1 + '/' + listing.tag + '.xlsx'
             wb.save(filename=filepath)
             wb.close()
             # f = open(r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample10A.xlsx')
@@ -354,14 +361,17 @@ def create_report(request, listing_id):
             # new_report = FullReport.objects.create(listing=listing)
             # new_report = FullReport(listing=listing)
             new_report.listing = listing
-            new_report.file = 'reports_files/2023/01/31/Certificate_sample10A.xlsx'
+            # new_report.file = 'reports_files/2023/01/31/Certificate_sample10A.xlsx'
+            # new_report.file = filepath
+            # new_report.file = listing.tag + '.xlsx'
+            new_report.file = 'report_files/' + d1 + '/' + listing.tag + '.xlsx'
             new_report.save()
 
             # new_report.update(listing=listing)
             update_last_checked(listing)
             listing.save()
 
-            my_report = FullReport.objects.all().filter(listing_id=listing_id).order_by('id')[0]
+            my_report = FullReport.objects.all().filter(listing_id=listing_id).order_by('-id')[0]
             # my_report = FullReport.objects.get(listing_id)
             # my_report = get_object_or_404(FullReport, pk=listing.fullreport.id)
             print('')

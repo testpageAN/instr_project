@@ -66,7 +66,7 @@ class FullReport(models.Model):
     listing = models.ForeignKey(Listing, related_name='fullreports', on_delete=DO_NOTHING, null=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     date_created = models.DateTimeField(default=datetime.now)
-    file = models.FileField(blank=True, upload_to='reports_files/%Y/%m/%d/', verbose_name="Files")#, storage='reports_files/%Y/%m/%d/')
+    file = models.FileField(blank=True, upload_to='reports_files/%Y/%m/%d/', verbose_name="Files", max_length=255) #, storage='reports_files/%Y/%m/%d/')
     # file = models.FilePathField(path=r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files')
     # file = models.FileField(blank=True)
     output_0_before_cal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -89,8 +89,8 @@ class FullReport(models.Model):
     comments = models.TextField()
 
     def save(self, *args, **kwargs):
-        if not self.name:
-            self.name = f"{self.listing}--{self.date_created}"
+        # if not self.name:
+        self.name = f"{self.listing}--{self.date_created}"
         super().save(*args, **kwargs)
 
     def __str__(self):
