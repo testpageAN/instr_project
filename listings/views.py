@@ -35,6 +35,8 @@ from django.core.files import File
 
 import io
 
+from .filters import ListingFilter
+
 
 #Create your views here.
 # class ListingView(LoginRequiredMixin, View):
@@ -45,19 +47,29 @@ import io
 
 
 def index(request):
+
     # listings = Listing.objects.order_by('unit')
-    order_by = request.GET.get('order_by', 'defaultOrderField')
+    order_by = request.GET.get('order_by', 'tag')
     listings = Listing.objects.order_by(order_by)
     # listings = Listing.objects.order_by('tag')
     update_next_check(listings)
+
+    ###################
+    myFilter = ListingFilter(request.GET, queryset=listings)
+    listings = myFilter.qs
+    update_next_check(listings)
+    ##################
 
     paginator = Paginator(listings, 4)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
 
+    update_next_check(listings)
+
     context = {
         'listings': paged_listings,
-
+        'myFilter': myFilter,
+        # 'listings': listings,
     }
 
     return render(request, 'listings/listings.html', context)

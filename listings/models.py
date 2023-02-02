@@ -1,6 +1,6 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 
 from django.db.models import ForeignKey, DO_NOTHING

@@ -17,6 +17,22 @@
     <!-- ALERTS -->
     {% include "partials/_alerts.html" %}
 
+    <!-- My Filter -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card card-body">
+                <form method="GET">
+                    {{ myFilter.form }}
+
+                    <button class="btn btn-primary" type="submit">Apply filters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
      <!-- My table -->
     <div class="container-fluid">
         <!-- Content here -->
@@ -29,7 +45,7 @@
 {#                    <th scope="col"><a href="?order_by=tag">TAG</a></th>#}
                     <th scope="col">DESCRIPTION</th>
 {#                    <th scope="col">TYPE</th>#}
-                    <th scope="col">TYPE           <span><a href="?order_by=type"><strong>&nbsp &nbsp &#8657</strong></a><a href="?order_by=-type"><strong>&nbsp &#8659</strong> </a></span></th>
+                    <th scope="col">TYPE<span><a href="?order_by=type"><strong>&nbsp &nbsp &#8657</strong></a><a href="?order_by=-type"><strong>&nbsp &#8659</strong> </a></span></th>
                     <th scope="col">SPECIAL TYPE</th>
                     <th scope="col">LRV</th>
                     <th scope="col">URV</th>
