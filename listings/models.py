@@ -28,6 +28,7 @@ class Listing(models.Model):
     equipment = models.CharField(max_length=50, blank=True)
     project = models.CharField(max_length=100, blank=True)
     interval = models.IntegerField()
+    # interval = models.FloatField()
     last_checked = models.DateTimeField(default=datetime.now)
     next_check = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -37,6 +38,12 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.tag
+
+    # def save(self, *args, **kwargs):
+    #     if not self.next_check:
+    #         start_date = datetime.strptime(str(self.last_checked), "FORMAT")  # start_day should be from your model and FORMAT as it is
+    #         end_day = start_date + timedelta(days=self.interval)
+    #         end_date = end_day.strftime(end_day, < FORMAT >)
 
 
 class Report(models.Model):

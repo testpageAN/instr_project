@@ -15,3 +15,10 @@ def update_last_checked(listing):
     listing.last_checked = datetime.date.today()
 
     return listing
+
+
+def update_next_check_for_one(listing):
+    listing.next_check = listing.last_checked + timedelta(days=listing.interval)
+    listing.delta_days = (listing.next_check.date() - datetime.date.today()).days
+
+    return listing

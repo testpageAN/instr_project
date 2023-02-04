@@ -2,6 +2,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% load crispy_forms_tags %}
+
+
 {% block content %}
 
 <h2>ALL LISTINGS</h2>
@@ -17,20 +20,37 @@
     <!-- ALERTS -->
     {% include "partials/_alerts.html" %}
 
-    <!-- My Filter -->
+    <!-- My Filter No1 -->
+{#<div class="container-fluid">#}
+{#    <div class="row">#}
+{#        <div class="col">#}
+{#            <div class="card card-body">#}
+{#                <form method="GET">#}
+{#                    {{ myFilter.form }}#}
+{##}
+{#                    <button class="btn btn-primary" type="submit">Apply filters</button>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+    <!-- My Filter No2 -->
 <div class="container-fluid">
     <div class="row">
         <div class="col">
             <div class="card card-body">
+
                 <form method="GET">
                     {{ myFilter.form }}
-
-                    <button class="btn btn-primary" type="submit">Apply filters</button>
+                <button class="btn btn-primary" type="submit">Apply filters</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+
 <br>
 
      <!-- My table -->
@@ -60,7 +80,7 @@
 
             <tbody>
             {% if listings %}
-            {% for listing in listings %}
+               {% for listing in listings %}
                     <tr class="table-light">
 {#                      <th scope="row">{{ listing.id }}</th>#}
                         <td>{{ listing.id }}</td>

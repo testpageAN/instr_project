@@ -37,6 +37,12 @@ import io
 
 from .filters import ListingFilter
 
+from django.views.generic import ListView
+# from django_tables2 import SingleTableView
+from .tables import ListingTable
+from django_filters.views import FilterView
+# from django_tables2.views import SingleTableMixin
+
 
 #Create your views here.
 # class ListingView(LoginRequiredMixin, View):
@@ -46,17 +52,56 @@ from .filters import ListingFilter
 #         return render(request, 'listings/listings.html', context)
 
 
+# def table_test(request):
+#     context = {}
+#     return render(request, 'listings/table-test.html', context)
+# class ListingListView(ListView):
+
+# WITH CLASS
+# class ListingListView(SingleTableView):
+#     model = Listing
+#     table_class = ListingTable
+#     template_name = 'listings/table-test.html'
+
+# WITH FUNCTION
+def table_test(request):
+    listings = Listing.objects.all().order_by('tag')
+    update_next_check(listings) # δεν λειτουργει εδω
+    # table = ListingTable(update_next_check(Listing.objects.all().order_by('tag')))
+    table = ListingTable(listings)
+    # table = ListingTable(update_next_check(listings))
+    # table = ListingTable(update_next_check(listings))
+
+    listings = update_next_check(Listing.objects.all().order_by('tag'))
+    # myFilter = ListingFilter(request.GET, queryset=listings)
+    myFilter = ListingFilter(request.GET, queryset=listings)
+    listings = myFilter.qs
+
+    table.paginate(page=request.GET.get("page", 1), per_page=25)
+    update_next_check(myFilter.qs)
+    update_next_check(listings)
+
+    context = {
+        'table': table,
+        'myFilter': myFilter,
+        # 'listings': listings,
+    }
+    return render(request, 'listings/table-test.html', context)
+
+
+#index with django_filters
 def index(request):
 
     # listings = Listing.objects.order_by('unit')
     order_by = request.GET.get('order_by', 'tag')
     listings = Listing.objects.order_by(order_by)
     # listings = Listing.objects.order_by('tag')
+    # listings = Listing.objects.all().order_by('tag')
     update_next_check(listings)
 
     ###################
-    myFilter = ListingFilter(request.GET, queryset=listings)
-    listings = myFilter.qs
+    # myFilter = ListingFilter(request.GET, queryset=listings)
+    # listings = myFilter.qs
     update_next_check(listings)
     ##################
 
@@ -68,7 +113,7 @@ def index(request):
 
     context = {
         'listings': paged_listings,
-        'myFilter': myFilter,
+        # 'myFilter': myFilter,
         # 'listings': listings,
     }
 
@@ -95,8 +140,9 @@ def listing(request, listing_id):
 
 
 def search(request):
-
-    queryset_list = Listing.objects.order_by('tag')
+    listings = Listing.objects.all()
+    update_next_check(listings)
+    queryset_list = update_next_check(Listing.objects.order_by('tag'))
 
     # Keywords
     if 'keywords' in request.GET:
@@ -114,7 +160,9 @@ def search(request):
     if 'unit' in request.GET:
         unit = request.GET['unit']
         if unit:
+
             queryset_list = queryset_list.filter(unit__iexact=unit)
+            update_next_check(queryset_list)
 
     # # Realtor
     # if 'realtor' in request.GET:
