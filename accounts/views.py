@@ -3,6 +3,8 @@ from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from listings.models import Listing
 from realtors.models import Realtor
+from listings.choices import control_users
+from listings.my_functions import update_next_check
 
 
 # Create your views here.
@@ -81,8 +83,13 @@ def logout(request):
 def dashboard(request):
     username = request.user.username
 
-    listings = Listing.objects.filter(realtor__name__iexact=username)
+    if username in control_users:
+        listings = Listing.objects.all().order_by('tag')
 
+    else:
+        listings = Listing.objects.filter(realtor__name__iexact=username)
+
+    update_next_check(listings)
     context = {
         'listings': listings,
     }

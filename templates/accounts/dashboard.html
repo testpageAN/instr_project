@@ -17,11 +17,19 @@
     </div>
   </section>
 
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            This is some text within a card body.
+        </div>
+    </div>
+</div>
+
     <!-- ALERTS -->
     {% include 'partials/_alerts.html' %}
 
   <section id="dashboard" class="py-4">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
           <h2>Welcome {{ user.username }}</h2>
@@ -35,6 +43,7 @@
                 <tr class="table-primary">
                     <th scope="col">#</th>
                     <th scope="col">UNIT</th>
+                    <th scope="col">BLOCK</th>
                     <th scope="col">TAG</th>
                     <th scope="col">DESCRIPTION</th>
                     <th scope="col">TYPE</th>
@@ -43,6 +52,7 @@
                     <th scope="col">URV</th>
                     <th scope="col">UNITS</th>
                     <th scope="col">IS_ACTIVE</th>
+                    <th scope="col">REALTOR</th>
                     <th scope="col">LAST CHECKED</th>
                     <th scope="col">INTERVAL</th>
                     <th scope="col">NEXT CHECK</th>
@@ -57,6 +67,7 @@
 {#                      <th scope="row">{{ listing.id }}</th>#}
                         <td>{{ listing.id }}</td>
                         <td>{{ listing.unit }}</td>
+                        <td>{{ listing.block }}</td>
                         <td>{{ listing.tag }}</td>
                         <td>{{ listing.description }}</td>
                         <td>{{ listing.type }}</td>
@@ -65,6 +76,7 @@
                         <td>{{ listing.urv }}</td>
                         <td>{{ listing.units }}</td>
                         <td>{{ listing.is_active }}</td>
+                        <td>{{ listing.realtor }}</td>
                         <td>{{ listing.last_checked }}</td>
                         <td>{{ listing.interval }}</td>
                         <td> {{ listing.next_check }}</td>

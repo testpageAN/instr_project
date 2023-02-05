@@ -17,6 +17,8 @@
                   <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
                 {% endif %}
         </li>
+{#      some space#}
+      &nbsp;&nbsp;
         <li class="nav-item">
             {% if 'listings' in request.path and not 'search' in request.path and request.path|length <= 10 %}
                 <a class="nav-link active" href="{% url 'listings' %}"><b>Listings</b></a>
@@ -24,6 +26,8 @@
                 <a class="nav-link" href="{% url 'listings' %}">Listings</a>
             {% endif %}
         </li>
+      {#      some space#}
+      &nbsp;&nbsp;
         <li class="nav-item">
             {% if 'search' in request.path %}
                 <a class="nav-link active" href="{% url 'search' %}"><b>Search Listings</b></a>
@@ -31,6 +35,8 @@
                 <a class="nav-link" href="{% url 'search' %}">Search Listings</a>
             {% endif %}
         </li>
+      {#      some space#}
+      &nbsp;&nbsp;
         <li class="nav-item">
             {% if 'about' in request.path %}
                 <a class="nav-link active"  href="{% url 'about' %}"><b>About</b></a>
@@ -39,7 +45,8 @@
             {% endif %}
         </li>
 
-
+{#      some space#}
+      &nbsp;&nbsp;
         <li class="nav-item">
             {% if 'table-test' in request.path %}
                 <a class="nav-link active"  href="{% url 'table-test' %}"><b>Table Test</b></a>
@@ -49,8 +56,16 @@
         </li>
       </ul>
 
+
         <ul class="navbar-nav">
         {% if user.is_authenticated %}
+
+             {#      some space#}
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <li class="nav-item">
                 {% if 'dashboard' in request.path %}
                     <a class="nav-link active"  href="{% url 'dashboard' %}"><b>{{ user.username }} (Dashboard)</b></a>
