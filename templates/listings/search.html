@@ -24,17 +24,6 @@
                 </div>
             </div>
 
-{#            <div class="col-md">#}
-{#                <div class="form-floating">#}
-{#                    <input type="text" class="form-select" id="floatingInputGrid" placeholder="Select Block" name="block" list="blocks">#}
-{#                    <datalist id="blocks">#}
-{#                        {% for key, value in blocks_choices.items %}#}
-{#                            <option name='{{ value }}' value="{{ key }}">{{ value }}</option>#}
-{#                        {% endfor %}#}
-{#                    </datalist>#}
-{#                    <label for="floatingInputGrid">Block (All)</label>#}
-{#                </div>#}
-{#            </div>#}
 
             <div class="col-md">
                 <div class="form-floating">
@@ -53,10 +42,80 @@
                 </div>
             </div>
 
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="type" class="form-select" id="floatingSelectGrid">
+{#                        <option selected="true" disabled="disabled">Block (All)</option>#}
+                        <option value="">Type (All)</option>
+                        {% for key, value in types_choices.items %}
+                        <option value="{{ key }}"
+                                {% if key == values.type %}
+                                    selected
+                                {% endif %}
+                        >{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="floatingSelectGrid">Select Type</label>
+                </div>
+            </div>
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="special_type" class="form-select" id="floatingSelectGrid">
+{#                        <option selected="true" disabled="disabled">Block (All)</option>#}
+                        <option value="">Special Type (All)</option>
+                        {% for key, value in special_types_choices.items %}
+                        <option value="{{ key }}"
+                                {% if key == values.special_type %}
+                                    selected
+                                {% endif %}
+                        >{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="floatingSelectGrid">Select Special Type</label>
+                </div>
+            </div>
+
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="units" class="form-select" id="floatingSelectGrid">
+{#                        <option selected="true" disabled="disabled">Block (All)</option>#}
+                        <option value="">Measure Unit (All)</option>
+                        {% for key, value in measure_units_choices.items %}
+                        <option value="{{ key }}"
+                                {% if key == values.measure_units %}
+                                    selected
+                                {% endif %}
+                        >{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="floatingSelectGrid">Select Meas. Unit</label>
+                </div>
+            </div>
+
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="realtor" class="form-select" id="floatingSelectGrid">
+{#                        <option selected="true" disabled="disabled">Block (All)</option>#}
+                        <option value="">Realtor (All)</option>
+                        {% for key, value in realtors_choices.items %}
+                        <option value="{{ key }}"
+                                {% if key == values.realtor %}
+                                    selected
+                                {% endif %}
+                        >{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="floatingSelectGrid">Select Realtor</label>
+                </div>
+            </div>
+
             <div class="col-md">
                 <div class="form-floating">
                     <select name="unit" class="form-select" id="floatingSelectGrid">
-{#                        <option selected="true" disabled="disabled">Units (All)</option>#}
                         <option value="">Units (All)</option>
                             {% for key, value in units_choices.items %}
                                 <option value="{{ key }}"
@@ -69,10 +128,78 @@
                     <label for="floatingSelectGrid">Select Unit</label>
                 </div>
             </div>
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="is_active" class="form-select" id="floatingSelectGrid">
+                        <option value="">IS ACTIVE (All)</option>
+                            {% for key, value in is_active_choices.items %}
+                                <option value="{{ key }}"
+                                    {% if key == values.is_active %}
+                                    selected
+                                    {% endif %}
+                                >{{ value }}</option>
+                            {% endfor %}
+                    </select>
+                    <label for="floatingSelectGrid">ACTIVE (True/False)</label>
+                </div>
+            </div>
+
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="interval" class="form-select" id="floatingSelectGrid">
+                        <option value="">INTERVAL (All)</option>
+                            {% for key, value in intervals_choices.items %}
+                                <option value="{{ key }}"
+                                    {% if key == values.interval %}
+                                    selected
+                                    {% endif %}
+                                >{{ value }}</option>
+                            {% endfor %}
+                    </select>
+                    <label for="floatingSelectGrid">Interval </label>
+                </div>
+            </div>
+
+
         </div>
 
+    <br>
+    <h5>Dates Search/Filters</h5>
+
+{#    Second Row of Search / Filters#}
+    <div class="row g-2">
+
+        <div class="col-md">
+            <div class="form-floating">
+                <input type="date" class="form-control" id="floatingInputGrid" placeholder="" name="last_checked_from" value="{{ values.last_checked_from }}">
+                <label for="floatingSelectGrid">Last Checked FROM:</label>
+            </div>
+        </div>
+
+        <div class="col-md">
+            <div class="form-floating">
+                <input type="date" class="form-control" id="floatingInputGrid" placeholder="" name="last_checked_to" value="{{ values.last_checked_to }}">
+                <label for="floatingSelectGrid">Last Checked TO:</label>
+            </div>
+        </div>
+
+        <div class="col-md">
+            <div class="form-floating">
+                <input type="date" class="form-control" id="floatingInputGrid" placeholder="" name="next_check_from" value="{{ values.next_check_from }}">
+                <label for="floatingSelectGrid">Next Check FROM:</label>
+            </div>
+        </div>
+
+        <div class="col-md">
+            <div class="form-floating">
+                <input type="date" class="form-control" id="floatingInputGrid" placeholder="" name="next_check_to" value="{{ values.next_check_to }}">
+                <label for="floatingSelectGrid">Next Check TO:</label>
+            </div>
+        </div>
+    </div>
         <br>
-        <button class="btn btn-primary" type="submit">Submit form</button>
+        <button class="btn btn-primary" type="submit">Search / Filter</button>
     </form>
 </div>
     <br>
@@ -85,6 +212,7 @@
                 <tr class="table-primary">
                     <th scope="col">#</th>
                     <th scope="col">UNIT</th>
+                    <th scope="col">BLOCK</th>
                     <th scope="col">TAG</th>
                     <th scope="col">DESCRIPTION</th>
                     <th scope="col">TYPE</th>
@@ -93,6 +221,7 @@
                     <th scope="col">URV</th>
                     <th scope="col">UNITS</th>
                     <th scope="col">IS_ACTIVE</th>
+                    <th scope="col">REALTOR</th>
                     <th scope="col">LAST CHECKED</th>
                     <th scope="col">INTERVAL</th>
                     <th scope="col">NEXT CHECK</th>
@@ -107,6 +236,7 @@
 {#                      <th scope="row">{{ listing.id }}</th>#}
                         <td>{{ listing.id }}</td>
                         <td>{{ listing.unit }}</td>
+                        <td>{{ listing.block }}</td>
                         <td>{{ listing.tag }}</td>
                         <td>{{ listing.description }}</td>
                         <td>{{ listing.type }}</td>
@@ -115,6 +245,7 @@
                         <td>{{ listing.urv }}</td>
                         <td>{{ listing.units }}</td>
                         <td>{{ listing.is_active }}</td>
+                        <td>{{ listing.realtor }}</td>
                         <td>{{ listing.last_checked }}</td>
                         <td>{{ listing.interval }}</td>
                         <td> {{ listing.next_check }}</td>

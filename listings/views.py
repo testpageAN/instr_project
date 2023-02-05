@@ -10,7 +10,7 @@ from datetime import timedelta, date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .my_functions import update_next_check, update_last_checked
 from django.views.generic.detail import DetailView
-from .choices import units_choices, blocks_choices, control_users
+from .choices import units_choices, blocks_choices, control_users, types_choices, special_types_choices, measure_units_choices, realtors_choices, is_active_choices, intervals_choices
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
@@ -149,30 +149,101 @@ def search(request):
         keywords = request.GET['keywords']
         if keywords:
             queryset_list = queryset_list.filter(tag__icontains=keywords)
+            update_next_check(queryset_list)
+
+    # Last Checked from
+    if 'last_checked_from' in request.GET:
+        last_checked_from = request.GET['last_checked_from']
+        if last_checked_from:
+            queryset_list = queryset_list.filter(last_checked__gte=last_checked_from)
+            update_next_check(queryset_list)
+
+    # Is Active
+    if 'is_active' in request.GET:
+        is_active = request.GET['is_active']
+        if is_active:
+            queryset_list = queryset_list.filter(is_active__iexact=is_active)
+            update_next_check(queryset_list)
+
+    # Last Checked to
+    if 'last_checked_to' in request.GET:
+        last_checked_to = request.GET['last_checked_to']
+        if last_checked_to:
+            queryset_list = queryset_list.filter(last_checked__lte=last_checked_to)
+            update_next_check(queryset_list)
+
+    # Next Check from
+    if 'next_check_from' in request.GET:
+        next_check_from = request.GET['next_check_from']
+        if next_check_from:
+            queryset_list = queryset_list.filter(next_check__gte=next_check_from)
+            update_next_check(queryset_list)
+
+    # Next Check to
+    if 'next_check_to' in request.GET:
+        next_check_to = request.GET['next_check_to']
+        if next_check_to:
+            queryset_list = queryset_list.filter(next_check__lte=next_check_to)
+            update_next_check(queryset_list)
 
     # Block
     if 'block' in request.GET:
         block = request.GET['block']
         if block:
             queryset_list = queryset_list.filter(block__iexact=block)
+            update_next_check(queryset_list)
+
+    # Interval
+    if 'interval' in request.GET:
+        interval = request.GET['interval']
+        if interval:
+            queryset_list = queryset_list.filter(interval__iexact=interval)
+            update_next_check(queryset_list)
 
     # Unit
     if 'unit' in request.GET:
         unit = request.GET['unit']
         if unit:
-
             queryset_list = queryset_list.filter(unit__iexact=unit)
             update_next_check(queryset_list)
 
-    # # Realtor
-    # if 'realtor' in request.GET:
-    #     realtor = request.GET['realtor']
-    #     if realtor:
-    #         queryset_list = queryset_list.filter(realtor__name__iexact=realtor)
+    # Type
+    if 'type' in request.GET:
+        type = request.GET['type']
+        if type:
+            queryset_list = queryset_list.filter(type__iexact=type)
+            update_next_check(queryset_list)
+
+    # special_Type
+    if 'special_type' in request.GET:
+        special_type = request.GET['special_type']
+        if special_type:
+            queryset_list = queryset_list.filter(special_type__iexact=special_type)
+            update_next_check(queryset_list)
+
+    # Measure_Units
+    if 'units' in request.GET:
+        units = request.GET['units']
+        if units:
+            queryset_list = queryset_list.filter(units__iexact=units)
+            update_next_check(queryset_list)
+
+    # Realtor
+    if 'realtor' in request.GET:
+        realtor = request.GET['realtor']
+        if realtor:
+            queryset_list = queryset_list.filter(realtor__name__iexact=realtor)
+            update_next_check(queryset_list)
 
     context = {
         'units_choices': units_choices,
         'blocks_choices': blocks_choices,
+        'types_choices': types_choices,
+        'special_types_choices': special_types_choices,
+        'measure_units_choices': measure_units_choices,
+        'realtors_choices': realtors_choices,
+        'is_active_choices': is_active_choices,
+        'intervals_choices': intervals_choices,
         'listings': queryset_list,
         'values': request.GET
     }
