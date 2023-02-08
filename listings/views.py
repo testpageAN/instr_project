@@ -8,7 +8,7 @@ from .models import Listing
 import datetime
 from datetime import timedelta, date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .my_functions import update_next_check, update_last_checked
+from .my_functions import update_next_check, update_last_checked, update_date_appearance
 from django.views.generic.detail import DetailView
 from .choices import units_choices, blocks_choices, control_users, types_choices, special_types_choices, measure_units_choices, realtors_choices, is_active_choices, intervals_choices
 
@@ -110,6 +110,7 @@ def index(request):
     paged_listings = paginator.get_page(page)
 
     update_next_check(listings)
+    update_date_appearance(listings)
 
     context = {
         'listings': paged_listings,
@@ -234,6 +235,8 @@ def search(request):
         if realtor:
             queryset_list = queryset_list.filter(realtor__name__iexact=realtor)
             update_next_check(queryset_list)
+
+    update_date_appearance(queryset_list)
 
     context = {
         'units_choices': units_choices,

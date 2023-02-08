@@ -55,8 +55,16 @@
 {#  alert(window.getComputedStyle(span, null).getPropertyValue('font-family'));#}
 {##}
 {#  document.body.removeChild(span);#}
-{#};#}
 {#</script>#}
+
+
+<script>
+    function myFunction(x) {
+    x.classList.toggle("fas fa-sort-amount-down");
+    {#x.linkHref.toggle("?order_by=-type");#}
+    }
+</script>
+
 
 </body>
 </html>

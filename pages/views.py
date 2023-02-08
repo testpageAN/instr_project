@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from listings.models import Listing
-from listings.my_functions import update_next_check
+from listings.my_functions import update_next_check, update_date_appearance
 from realtors.models import Realtor
 import datetime
 from datetime import timedelta
@@ -18,6 +18,8 @@ def index(request):
         if 0 <= listing.delta_days <= 30:
             due_listings.append(listing)
             print(listing.next_check)
+
+    update_date_appearance(due_listings)
 
     context = {
         'due_listings': due_listings,

@@ -22,3 +22,10 @@ def update_next_check_for_one(listing):
     listing.delta_days = (listing.next_check.date() - datetime.date.today()).days
 
     return listing
+
+
+def update_date_appearance(listings):
+    for listing in listings:
+        listing.last_checked = listing.last_checked.strftime("%d/%m/%Y")
+        listing.next_check = listing.next_check.strftime("%d/%m/%Y")
+

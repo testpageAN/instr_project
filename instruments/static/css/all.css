@@ -1,3 +1,41 @@
+table {
+  width: 98%;
+}
+thead th:nth-child(1) {
+  width: 4%;
+}
+thead th:nth-child(2) {
+  width: 6%;
+}
+thead th:nth-child(3) {
+  width: 6%;
+}
+/*thead th:nth-child(4) {*/
+/*  width: 20%;*/
+/*}*/
+thead th:nth-child(5) {
+  width: 8%;
+}
+thead th:nth-child(6) {
+  width: 8%;
+}
+thead th:nth-child(9) {
+  width: 7%;
+}
+
+thead th:nth-child(10) {
+  width: 6%;
+}
+thead th:nth-child(11) {
+  width: 6%;
+}
+thead th:nth-child(12) {
+  width: 6%;
+}
+thead th:nth-child(13) {
+  width: 5%;
+}
+
 /*!
  * Font Awesome Free 5.3.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)

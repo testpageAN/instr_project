@@ -59,21 +59,52 @@
         <table class="table table-bordered">
             <thead>
                 <tr class="table-primary">
-                    <th scope="col">#</th>
-                    <th scope="col">UNIT</th>
-                    <th scope="col">TAG</th>
+                    <th scope="col">#<span>
+                                            <a href="?order_by=id"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-id"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span></th>
+                    <th scope="col">UNIT<span>
+                                            <a href="?order_by=unit"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-unit"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span></th>
+                    <th scope="col">TAG<span>
+                                            <a href="?order_by=tag"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-tag"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span></th>
 {#                    <th scope="col"><a href="?order_by=tag">TAG</a></th>#}
                     <th scope="col">DESCRIPTION</th>
-{#                    <th scope="col">TYPE</th>#}
-                    <th scope="col">TYPE<span><a href="?order_by=type"><strong>&nbsp &nbsp &#8657</strong></a><a href="?order_by=-type"><strong>&nbsp &#8659</strong> </a></span></th>
-                    <th scope="col">SPECIAL TYPE</th>
+                    <th style="width: 150px;" scope="col">TYPE<span>
+                                            <a href="?order_by=type"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-type"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span>
+                    </th>
+                    <th scope="col">SPECIAL TYPE<span>
+                                                    <a href="?order_by=special_type"><i class="fas fa-sort-amount-up"></i></a>
+                                                    <a href="?order_by=-special_type"><i class="fas fa-sort-amount-down"></i></a>
+                                                </span>
+                    </th>
                     <th scope="col">LRV</th>
                     <th scope="col">URV</th>
-                    <th scope="col">UNITS</th>
-                    <th scope="col">IS_ACTIVE</th>
-                    <th scope="col">LAST CHECKED</th>
-                    <th scope="col">INTERVAL</th>
-                    <th scope="col">NEXT CHECK</th>
+                    <th scope="col">UNITS<span>
+                                            <a href="?order_by=units"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-units"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span></th>
+                    <th scope="col">IS_ACTIVE<span>
+                                            <a href="?order_by=is_active"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-is_active"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span></th>
+                    <th scope="col">LAST CHECKED<span>
+                                            <a href="?order_by=last_checked"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-last_checked"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span></th>
+                    <th scope="col">INTERVAL<span>
+                                            <a href="?order_by=interval"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-interval"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span></th>
+                    <th scope="col">NEXT CHECK<span>
+                                            <a href="?order_by=next_check"><i class="fas fa-sort-amount-up"></i></a>
+                                            <a href="?order_by=-next_check"><i class="fas fa-sort-amount-down"></i></a>
+                                        </span></th>
                     <th scope="col">DETAILS</th>
                 </tr>
             </thead>
