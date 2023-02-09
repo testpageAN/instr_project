@@ -4,14 +4,29 @@
 
 {% block content %}
 
-<h2>SEARCH</h2>
-<div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            This is some text within a card body.
-        </div>
+{#<h2>SEARCH</h2>#}
+{#<div class="container-fluid">#}
+{#    <div class="card">#}
+{#        <div class="card-body">#}
+{#            This is some text within a card body.#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+    <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active">Search Listings</li>
+        </ol>
+      </nav>
     </div>
-</div>
+  </section>
 
 <br>
 <div class="container-fluid">

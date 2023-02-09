@@ -10,15 +10,40 @@
 
 
 
-<h2>ALL LISTINGS</h2>
-<div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <a href="{% url 'insert' %}" class="btn btn-success">INSERT NEW LISTING</a>
-            </div>
+{#<h2>ALL LISTINGS</h2>#}
+{#<div class="container-fluid">#}
+{#        <div class="card">#}
+{#            <div class="card-body">#}
+{#                <a href="{% url 'insert' %}" class="btn btn-success">INSERT NEW LISTING</a>#}
+{#            </div>#}
+{#        </div>#}
+{#</div>#}
+{#<br>#}
+
+
+    <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active">Table-Test</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+    <div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <p style="text-align:center; color:red;">Test page - Under Construction</p>
         </div>
+    </div>
 </div>
-<br>
+    <br>
 
     <!-- ALERTS -->
     {% include "partials/_alerts.html" %}

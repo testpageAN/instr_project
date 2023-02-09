@@ -8,11 +8,12 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                This is some text within a card body.
+                Home page. Listings for next 30 days.
             </div>
         </div>
     </div>
 <br>
+
 
 <div class="container-fluid">
     <form action="{% url 'search' %}">
@@ -50,7 +51,7 @@
         </div>
 
         <br>
-        <button class="btn btn-primary" type="submit">Search Asset</button>
+        <button class="btn btn-primary" type="submit">Find/Search</button>
     </form>
 </div>
 
@@ -95,7 +96,14 @@
                         <td>{{ listing.lrv }}</td>
                         <td>{{ listing.urv }}</td>
                         <td>{{ listing.units }}</td>
-                        <td>{{ listing.is_active }}</td>
+{#                        <td>{{ listing.is_active }}</td>#}
+                        <td>
+                            {% if listing.is_active %}
+                                <span class="">✔</span>
+                            {% else %}
+                                <span class="">✘</span>
+                            {% endif %}
+                        </td>
                         <td>{{ listing.last_checked }}</td>
                         <td>{{ listing.interval }}</td>
                         <td style="font-weight: bold;
