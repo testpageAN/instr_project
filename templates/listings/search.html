@@ -259,7 +259,14 @@
                         <td>{{ listing.lrv }}</td>
                         <td>{{ listing.urv }}</td>
                         <td>{{ listing.units }}</td>
-                        <td>{{ listing.is_active }}</td>
+{#                        <td>{{ listing.is_active }}</td>#}
+                        <td>
+                            {% if listing.is_active %}
+                                <span class="">✔</span>
+                            {% else %}
+                                <span class="">✘</span>
+                            {% endif %}
+                        </td>
                         <td>{{ listing.realtor }}</td>
                         <td>{{ listing.last_checked }}</td>
                         <td>{{ listing.interval }}</td>
