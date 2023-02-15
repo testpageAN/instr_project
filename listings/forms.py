@@ -42,21 +42,33 @@ class UploadReportForm(forms.ModelForm):
 
 
 class FullReportForm(forms.ModelForm):
+
     class Meta:
         model = FullReport
         # fields = '__all__'
-        fields = ['comments']
+        # fields = ['comments']
+        exclude = ['listing', 'name']
+
+    # def __init__(self, *args, **kwargs):
+    #     super(FullReportForm, self).__init__(*args, **kwargs)
+    #     self.fields['comments'].initial = 'SOME INITIAL VALUE'
+    #     # self.fields['comments'].initial = listing.tag
+
         # labels = {
-        #     'name': _('Writer'),
+        #     'comments': _('Writer'),
         # }
         # help_texts = {
-        #     'name': _('Some useful help text.'),
+        #     'comments': _('Some useful help text.'),
         # }
         # error_messages = {
-        #     'name': {
+        #     'comments': {
         #         'max_length': _("This writer's name is too long."),
-        #     },
+        #     }
         # }
+        # value = {
+        #   'comments': _('Something'),
+        #     }
+
 
 
 
