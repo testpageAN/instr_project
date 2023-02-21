@@ -1,50 +1,31 @@
-from django.shortcuts import render, get_object_or_404
-import os
 from django.conf import settings
-
-from django.utils.html import linebreaks
-
 from .models import Listing
 import datetime
-from datetime import timedelta, date
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from datetime import date
+from django.core.paginator import Paginator
 from .my_functions import update_next_check, update_last_checked, update_date_appearance
-from django.views.generic.detail import DetailView
-from .choices import units_choices, blocks_choices, control_users, types_choices, special_types_choices, measure_units_choices, realtors_choices, is_active_choices, intervals_choices
-
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .choices import units_choices, blocks_choices, control_users, types_choices, special_types_choices, \
+     measure_units_choices, realtors_choices, is_active_choices, intervals_choices
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views import View
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
 # from .forms import ListingForm, PostFileForm
 # from .forms import ListingForm, FileForm
-from .forms import ListingForm, UploadReportForm, ReportForm, CreateReportForm, FullReportForm
+from .forms import ListingForm, ReportForm, FullReportForm
 from .models import Report, FullReport
 
-from django.contrib import messages, auth
-
-from django.contrib.auth.models import User
+from django.contrib import messages
 
 from openpyxl import Workbook, load_workbook
-from tempfile import NamedTemporaryFile
 
 import pathlib
-from pathlib import Path
-from django.core.files import File
-
-import io
 
 from .filters import ListingFilter
 
-from django.views.generic import ListView
 # from django_tables2 import SingleTableView
 from .tables import ListingTable
-from django_filters.views import FilterView
 # from django_tables2.views import SingleTableMixin
 
 
-#Create your views here.
+# Create your views here.
 # class ListingView(LoginRequiredMixin, View):
 #     def get(self, request):
 #         listings = Listing.objects.all()
@@ -66,7 +47,7 @@ from django_filters.views import FilterView
 # WITH FUNCTION
 def table_test(request):
     listings = Listing.objects.all().order_by('tag')
-    update_next_check(listings) # δεν λειτουργει εδω
+    update_next_check(listings)  # δεν λειτουργει εδω
     # table = ListingTable(update_next_check(Listing.objects.all().order_by('tag')))
     table = ListingTable(listings)
     # table = ListingTable(update_next_check(listings))
@@ -89,7 +70,7 @@ def table_test(request):
     return render(request, 'listings/table-test.html', context)
 
 
-#index with django_filters
+# index with django_filters
 def index(request):
 
     # listings = Listing.objects.order_by('unit')
@@ -255,7 +236,7 @@ def search(request):
 
 #################################################################################
 def edit(request, listing_id):
-    context = {}
+    # context = {}
     # fetch the object related to passed id
     listing = get_object_or_404(Listing, id=listing_id)
     context = {
@@ -361,7 +342,7 @@ def upload_report(request, listing_id):
 
 
 #######################################################################################################
-## λειτουργει χωρις το upload του file
+# λειτουργει χωρις το upload του file
 ##
 #######################################################################################################
 # def create_report(request, listing_id):
@@ -398,7 +379,7 @@ def upload_report(request, listing_id):
 #     return render(request, 'listings/create-report.html', context)
 
 ##########################################################################################################
-##    TEST   ΛΕΙΤΟΥΡΓΕΙ ΟΧΙ ΤΕΛΕΙΑ ΟΧΙ PYTHONIC
+#    TEST   ΛΕΙΤΟΥΡΓΕΙ ΟΧΙ ΤΕΛΕΙΑ ΟΧΙ PYTHONIC
 ##########################################################################################################
 # def create_report(request, listing_id):
 #     listing = get_object_or_404(Listing, id=listing_id)
@@ -440,7 +421,7 @@ def upload_report(request, listing_id):
 #     return render(request, 'listings/create-report.html', context)
 
 ########################################################################################################
-## TEST 2
+# TEST 2
 ########################################################################################################
 ########################################################################################################
 ########################################################################################################
@@ -462,9 +443,9 @@ def create_report(request, listing_id):
         # form = FullReportForm(request.POST or None, instance=listing)
         form = FullReportForm(request.POST)
         if form.is_valid():
-            new_report = form.save()           #  τα θελω
-            comments = new_report.comments      #  τα θελω
-            listing.history = old_history + '\n\n' + comments # τα θελω
+            new_report = form.save()
+            comments = new_report.comments
+            listing.history = old_history + '\n\n' + comments
             wb = Workbook()
             wb = load_workbook(filename=r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample.xlsx')
             ws = wb.active
@@ -497,13 +478,11 @@ def create_report(request, listing_id):
             ws['F55'] = str(new_report.date_created)
             ws['O55'] = str(listing.realtor)
             ws['B48'] = comments
-            # filepath = r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample11A.xlsx'
             # filepath = 'Certificate_sample10009.xlsx'
             now = str(datetime.datetime.now())
             today = date.today()
             d1 = str(today.strftime("%Y/%m/%d"))
             # print(today)
-            # filepath = "C:\\Users\\ALEXIS\\OneDrive\\PYTHON-LESSONS\\DJANGO-ALL\\instruments_project\\media\\excel_files\\" + d1 + "\\" + listing.tag
             # filepath1 = 'C:/Users/ALEXIS/OneDrive/PYTHON-LESSONS/DJANGO-ALL/instruments_project/media/excel_files'
             # filepath = filepath1 + "\\" + listing.tag + "\\" + d1 + '.xlsx' # 'Certificate_sample14A.xlsx'
             # filepath = settings.MEDIA_ROOT + "/" + listing.tag + '.xlsx' #
@@ -511,12 +490,9 @@ def create_report(request, listing_id):
             filepath = settings.MEDIA_ROOT + '/report_files/' + d1 + '/' + listing.tag + '.xlsx'
             wb.save(filename=filepath)
             wb.close()
-            # f = open(r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample10A.xlsx')
             # new_report.file.save(new_name, File(f))
             # new_report.file = Path(filepath)
-            #f = open('Certificate_sample11A.xlsx', 'rb').read()
-
-
+            # f = open('Certificate_sample11A.xlsx', 'rb').read()
 
             # new_report.file.save(new_name, File(f))
             # new_report = FullReport.objects.create(listing=listing)
@@ -535,30 +511,18 @@ def create_report(request, listing_id):
             my_report = FullReport.objects.all().filter(listing_id=listing_id).order_by('-id')[0]
             # my_report = FullReport.objects.get(listing_id)
             # my_report = get_object_or_404(FullReport, pk=listing.fullreport.id)
-            print('')
-            print(my_report.file.name) # reports_files/2023/01/31/Certificate_sample10A.xlsx
-            print(my_report.file.path) # C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\reports_files\2023\01\31\Certificate_sample10A.xlsx
-            print(my_report.file)      # reports_files/2023/01/31/Certificate_sample10A.xlsx
-            print(my_report.file.url)  # /media/reports_files/2023/01/31/Certificate_sample10A.xlsx
-
-
-            # new_report.file.path = 'Certificate_sample14A.xlsx' #################################################################
+            # new_report.file.path = 'Certificate_sample14A.xlsx'
             # new_report.save()
             # path = Path('Certificate_sample12A.xlsx')
             # with path.open(mode='rb') as f:
             #     new_report.file = File(f, name=path.name)
-                # new_report.save()
+            # new_report.save()
             ###############################################################################################
             # alli mia prospaueia
             # f = open(r'Certificate_sample13A.xlsx')
             # myfile = File(f)
             #
             # new_report.file.save(r'Certificate_sample133333333A.xlsx', myfile)
-            #
-
-
-
-
 
             # from django.core.files import File
             # from openpyxl import Workbook
@@ -589,15 +553,10 @@ def create_report(request, listing_id):
             #             # Some return - required for AJAX
             #             return JsonResponse({"status": "OK"})
 
-
             #################################################################################################
 
-
-
-
-            #new_report.file = f
+            # new_report.file = f
             # new_report.listing = listing
-
 
             # print(new_report.file)
 
@@ -611,14 +570,12 @@ def create_report(request, listing_id):
             # today = date.today()
             # d1 = str(today.strftime("%Y/%m/%d"))
             # print(today)
-            # filepath = "C:\\Users\\ALEXIS\\OneDrive\\PYTHON-LESSONS\\DJANGO-ALL\\instruments_project\\media\\excel_files\\" + d1 + "\\" + listing.tag
             # wb.save(r'D:\folder\folder\folder\Filename.xlsx')
             # wb.save(filename=filepath)
             # file = 'my_certificate100.xlsx'
             # new_report = FullReport(listing=listing)#, file=wb)
             # new_report.file = wb
             # wb.close()
-
 
             # context = {
             #     'listing': listing,
@@ -640,8 +597,8 @@ def create_report(request, listing_id):
 ################################################################################################
 
 
-#https://stackoverflow.com/questions/57183002/filefield-not-working-with-arrayfield-in-django
-#https://code.djangoproject.com/attachment/ticket/25756/multiple.py
+# https://stackoverflow.com/questions/57183002/filefield-not-working-with-arrayfield-in-django
+# https://code.djangoproject.com/attachment/ticket/25756/multiple.py
 
 ################################################################################################################
 

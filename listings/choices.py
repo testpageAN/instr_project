@@ -16,7 +16,7 @@ for listing in sorted_units_keys:
     if listing not in units_choices.keys():
         units_choices[str(listing)] = listing
 
-print(units_choices)
+# print(units_choices)
 ##########################################################
 
 intervals_choices = {}
@@ -30,7 +30,7 @@ for listing in sorted_intervals_keys:
     if listing not in intervals_choices.keys():
         intervals_choices[str(listing)] = listing
 
-print(intervals_choices)
+# print(intervals_choices)
 ##########################################################
 
 measure_units_choices = {}
@@ -44,7 +44,7 @@ for listing in sorted_measure_units_keys:
     if listing not in measure_units_choices.keys():
         measure_units_choices[str(listing)] = listing
 
-print(measure_units_choices)
+# print(measure_units_choices)
 ##########################################################
 
 realtors_choices = {}
@@ -57,7 +57,7 @@ for listing in sorted_realtors_keys:
     if listing not in realtors_choices.keys():
         realtors_choices[str(listing)] = str(listing)
 
-print(realtors_choices)
+# print(realtors_choices)
 ##########################################################
 
 blocks_choices = {}
@@ -70,7 +70,7 @@ for listing in sorted_blocks_keys:
     if listing not in blocks_choices.keys():
         blocks_choices[str(listing)] = str(listing)
 
-print(blocks_choices)
+# print(blocks_choices)
 ##########################################################
 
 types_choices = {}
@@ -83,7 +83,7 @@ for listing in sorted_types_keys:
     if listing not in types_choices.keys():
         types_choices[str(listing)] = str(listing)
 
-print(types_choices)
+# print(types_choices)
 ##########################################################
 
 special_types_choices = {}
@@ -96,7 +96,7 @@ for listing in sorted_special_types_keys:
     if listing not in special_types_choices.keys():
         special_types_choices[str(listing)] = str(listing)
 
-print(special_types_choices)
+# print(special_types_choices)
 
 
 is_active_choices = {

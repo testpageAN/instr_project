@@ -135,7 +135,7 @@
                                             {% endfor %}
                                             {% else %}
                                                 <tr>
-                                                  <td>Report: </td>
+                                                  <td>Uploaded Report: </td>
                                                   <td>No Report available</td>
                                                 </tr>
                                             {% endif %}
@@ -146,7 +146,7 @@
                                                 {% for report in full_reports %}
                                                     {% if report.file %}
                                                     <tr>
-                                                          <td>F-Report: </td>
+                                                          <td>Created-Report: </td>
                                                             <td><a href="{{ report.file.url }}">{{ report.file.name }}</a></td>
                                                     </tr>
                                                     {% endif %}
