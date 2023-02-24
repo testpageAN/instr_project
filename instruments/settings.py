@@ -44,9 +44,9 @@ INSTALLED_APPS = [
     'realtors.apps.RealtorsConfig',
     'accounts.apps.AccountsConfig',
     'django.contrib.humanize',
-    # 'crispy_forms',
-    # 'django_tables2',
-    # 'django_filters',
+    'crispy_forms',
+    'django_tables2',
+    'django_filters',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
