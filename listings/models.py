@@ -96,9 +96,12 @@ class FullReport(models.Model):
     comments = models.TextField()
 
     def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = f"{self.listing}--{self.date_created}"
+            super().save(*args, **kwargs)
         # if not self.name:
-        self.name = f"{self.listing}--{self.date_created}"
-        super().save(*args, **kwargs)
+        # self.name = f"{self.listing}--{self.date_created}"
+        # super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.listing}------{self.date_created}'
