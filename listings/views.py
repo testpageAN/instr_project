@@ -107,7 +107,10 @@ def index(request):
 
 
 def listing(request, listing_id):
-    listing = get_object_or_404(Listing, pk=listing_id)
+    try:
+        listing = get_object_or_404(Listing, pk=listing_id)
+    except ProgrammingError:
+        listings = []
 
     fields = Listing._meta.get_fields()
     reports = Report.objects.all().filter(listing_id=listing_id)
@@ -126,7 +129,10 @@ def listing(request, listing_id):
 
 
 def search(request):
-    listings = Listing.objects.all()
+    try:
+        listings = Listing.objects.all()
+    except ProgrammingError:
+        listings = []
     update_next_check(listings)
     queryset_list = update_next_check(Listing.objects.order_by('tag'))
 
@@ -242,7 +248,10 @@ def search(request):
 def edit(request, listing_id):
     # context = {}
     # fetch the object related to passed id
-    listing = get_object_or_404(Listing, id=listing_id)
+    try:
+        listing = get_object_or_404(Listing, id=listing_id)
+    except ProgrammingError:
+        listings = []
     context = {
         'listing': listing,
     }
@@ -293,7 +302,10 @@ def insert(request):
 def remove(request, listing_id):
 
     # fetch the object related to passed id
-    listing = get_object_or_404(Listing, id=listing_id)
+    try:
+        listing = get_object_or_404(Listing, id=listing_id)
+    except ProgrammingError:
+        listings = []
     context = {
         'listing': listing,
     }
@@ -321,7 +333,10 @@ def remove(request, listing_id):
 ####################################################################################################
 def upload_report(request, listing_id):
     # context = {}
-    listing = get_object_or_404(Listing, id=listing_id)
+    try:
+        listing = get_object_or_404(Listing, id=listing_id)
+    except ProgrammingError:
+        listings = []
     context = {
             'listing': listing,
         }
@@ -437,7 +452,10 @@ def upload_report(request, listing_id):
 ########################################################################################################
 ########################################################################################################
 def create_report(request, listing_id):
-    listing = get_object_or_404(Listing, pk=listing_id)
+    try:
+        listing = get_object_or_404(Listing, pk=listing_id)
+    except ProgrammingError:
+        listings = []
     context = {
         'listing': listing,
     }
