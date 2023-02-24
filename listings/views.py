@@ -74,8 +74,12 @@ def table_test(request):
 def index(request):
 
     # listings = Listing.objects.order_by('unit')
-    order_by = request.GET.get('order_by', 'tag')
-    listings = Listing.objects.order_by(order_by)
+    try:
+        order_by = request.GET.get('order_by', 'tag')
+        listings = Listing.objects.order_by(order_by)
+    except ProgrammingError:
+        listings = []
+
     # listings = Listing.objects.order_by('tag')
     # listings = Listing.objects.all().order_by('tag')
     update_next_check(listings)
