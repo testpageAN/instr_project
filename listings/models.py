@@ -10,6 +10,7 @@ from realtors.models import Realtor
 
 # Create your models here.
 class Listing(models.Model):
+    id = models.AutoField(primary_key=True)
     realtor = models.ForeignKey(Realtor, on_delete=models.DO_NOTHING)
     tag = models.CharField(max_length=50)
     block = models.CharField(max_length=100)
@@ -47,6 +48,7 @@ class Listing(models.Model):
 
 
 class Report(models.Model):
+    id = models.AutoField(primary_key=True)
     listing = models.ForeignKey(Listing, related_name='reports', on_delete=DO_NOTHING, null=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     date_created = models.DateTimeField(default=datetime.now)
@@ -70,6 +72,7 @@ class FullReport(models.Model):
         ('NOT CHECKED', 'NOT CHECKED')
     )
 
+    id = models.AutoField(primary_key=True)
     listing = models.ForeignKey(Listing, related_name='fullreports', on_delete=DO_NOTHING, null=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     date_created = models.DateTimeField(default=datetime.now)
