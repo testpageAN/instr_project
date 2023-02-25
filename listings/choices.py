@@ -4,7 +4,7 @@ from .models import *
 from realtors.models import Realtor
 from django.db.utils import OperationalError
 
-listings = Listing.objects.all()
+# listings = Listing.objects.all()
 
 #########################################################
 try:
