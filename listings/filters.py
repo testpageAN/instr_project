@@ -7,7 +7,7 @@ from django_filters.views import FilterView
 from .models import *
 from accounts.models import *
 from pages.models import *
-from .tables import ListingTable
+# from .tables import ListingTable
 
 
 # def get_unit():

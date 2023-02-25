@@ -1,8 +1,14 @@
+from django.http import HttpResponse
+
 from .models import *
 from realtors.models import Realtor
 
+try:
+    listings = Listing.objects.all()
+except Listing.DoesNotExist:
+    print('model does not exist')
 
-listings = Listing.objects.all().exists()
+
 #########################################################
 
 units_choices = {}
