@@ -21,7 +21,7 @@ import pathlib
 from .filters import ListingFilter
 
 # from django_tables2 import SingleTableView
-from .tables import ListingTable
+# from .tables import ListingTable
 # from django_tables2.views import SingleTableMixin
 
 

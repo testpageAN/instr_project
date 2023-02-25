@@ -2,7 +2,7 @@ from .models import *
 from realtors.models import Realtor
 
 
-listings = Listing.objects.all()
+listings = Listing.objects.all().exists()
 #########################################################
 
 units_choices = {}
