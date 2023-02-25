@@ -7,8 +7,9 @@ from django.db.utils import OperationalError
 # listings = Listing.objects.all()
 
 #########################################################
+from django.core.management import call_command
+from django.db.utils import OperationalError, ProgrammingError
 from django.apps import apps
-from django.db.utils import OperationalError
 
 Listing = apps.get_model('listings', 'Listing')
 
@@ -25,8 +26,45 @@ try:
         for listing in sorted_units_keys:
             if listing not in units_choices.keys():
                 units_choices[str(listing)] = listing
-except (OperationalError, LookupError, IndexError):
-    pass
+except (OperationalError, ProgrammingError, LookupError, IndexError):
+    try:
+        call_command('makemigrations', 'myapp')
+        call_command('migrate')
+    except (OperationalError, ProgrammingError):
+        pass
+    listings = Listing.objects.all()
+    units_choices = {}
+    sorted_units_keys = []
+    for listing in listings:
+        if listing.unit not in sorted_units_keys:
+            sorted_units_keys.append(listing.unit)
+    sorted_units_keys.sort()
+    if sorted_units_keys:
+        for listing in sorted_units_keys:
+            if listing not in units_choices.keys():
+                units_choices[str(listing)] = listing
+
+
+# from django.apps import apps
+# from django.db.utils import OperationalError
+#
+# Listing = apps.get_model('listings', 'Listing')
+#
+# try:
+#     listings = Listing.objects.all()
+#     units_choices = {}
+#     sorted_units_keys = []
+#     for listing in listings:
+#         if listing.unit not in sorted_units_keys:
+#             sorted_units_keys.append(listing.unit)
+#     sorted_units_keys.sort()
+#
+#     if sorted_units_keys:
+#         for listing in sorted_units_keys:
+#             if listing not in units_choices.keys():
+#                 units_choices[str(listing)] = listing
+# except (OperationalError, LookupError, IndexError):
+#     pass
 
 # from django.apps import apps
 # from django.db.utils import OperationalError
