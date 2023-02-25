@@ -13,11 +13,13 @@ except Listing.DoesNotExist:
 
 units_choices = {}
 sorted_units_keys = []
-if listings:
-    for listing in listings:
-        if listing.unit not in sorted_units_keys:
-            sorted_units_keys.append(listing.unit)
-    sorted_units_keys.sort()
+# if listings:
+for listing in listings:
+    if listing.unit not in sorted_units_keys:
+        sorted_units_keys.append(listing.unit)
+sorted_units_keys.sort()
+# else:
+#     sorted_units_keys = []
 
 for listing in sorted_units_keys:
     if listing not in units_choices.keys():
