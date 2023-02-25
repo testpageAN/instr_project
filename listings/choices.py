@@ -2,28 +2,38 @@ from django.http import HttpResponse
 
 from .models import *
 from realtors.models import Realtor
+from django.db.utils import OperationalError
 
-# try:
-#     listings = Listing.objects.all()
-# except Listing.DoesNotExist:
-#     print('model does not exist')
 listings = Listing.objects.all()
 
 #########################################################
+try:
+    listings = Listing.objects.all()
+    units_choices = {}
+    sorted_units_keys = []
+    for listing in listings:
+        if listing.unit not in sorted_units_keys:
+            sorted_units_keys.append(listing.unit)
+    sorted_units_keys.sort()
 
-units_choices = {}
-sorted_units_keys = []
-# if listings:
-for listing in listings:
-    if listing.unit not in sorted_units_keys:
-        sorted_units_keys.append(listing.unit)
-sorted_units_keys.sort()
-# else:
-#     sorted_units_keys = []
+    for listing in sorted_units_keys:
+        if listing not in units_choices.keys():
+            units_choices[str(listing)] = listing
+except OperationalError:
+    pass
 
-for listing in sorted_units_keys:
-    if listing not in units_choices.keys():
-        units_choices[str(listing)] = listing
+# units_choices = {}
+# sorted_units_keys = []
+# # if listings:
+# for listing in listings:
+#     if listing.unit not in sorted_units_keys:
+#         sorted_units_keys.append(listing.unit)
+# sorted_units_keys.sort()
+#
+#
+# for listing in sorted_units_keys:
+#     if listing not in units_choices.keys():
+#         units_choices[str(listing)] = listing
 
 # print(units_choices)
 ##########################################################
