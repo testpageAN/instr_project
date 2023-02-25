@@ -33,7 +33,7 @@ from .tables import ListingTable
 #         return render(request, 'listings/listings.html', context)
 
 
-# def table_test(request):
+# def table_test(request): # commented 25/02/2023 ################################
 #     context = {}
 #     return render(request, 'listings/table-test.html', context)
 # class ListingListView(ListView):
@@ -45,29 +45,29 @@ from .tables import ListingTable
 #     template_name = 'listings/table-test.html'
 
 # WITH FUNCTION
-def table_test(request):
-    listings = Listing.objects.all().order_by('tag')
-    update_next_check(listings)  # δεν λειτουργει εδω
-    # table = ListingTable(update_next_check(Listing.objects.all().order_by('tag')))
-    table = ListingTable(listings)
-    # table = ListingTable(update_next_check(listings))
-    # table = ListingTable(update_next_check(listings))
-
-    listings = update_next_check(Listing.objects.all().order_by('tag'))
-    # myFilter = ListingFilter(request.GET, queryset=listings)
-    myFilter = ListingFilter(request.GET, queryset=listings)
-    listings = myFilter.qs
-
-    table.paginate(page=request.GET.get("page", 1), per_page=25)
-    update_next_check(myFilter.qs)
-    update_next_check(listings)
-
-    context = {
-        'table': table,
-        'myFilter': myFilter,
-        # 'listings': listings,
-    }
-    return render(request, 'listings/table-test.html', context)
+# def table_test(request):
+#     listings = Listing.objects.all().order_by('tag')
+#     update_next_check(listings)  # δεν λειτουργει εδω
+#     # table = ListingTable(update_next_check(Listing.objects.all().order_by('tag')))
+#     table = ListingTable(listings)
+#     # table = ListingTable(update_next_check(listings))
+#     # table = ListingTable(update_next_check(listings))
+#
+#     listings = update_next_check(Listing.objects.all().order_by('tag'))
+#     # myFilter = ListingFilter(request.GET, queryset=listings)
+#     myFilter = ListingFilter(request.GET, queryset=listings)
+#     listings = myFilter.qs
+#
+#     table.paginate(page=request.GET.get("page", 1), per_page=25)
+#     update_next_check(myFilter.qs)
+#     update_next_check(listings)
+#
+#     context = {
+#         'table': table,
+#         'myFilter': myFilter,
+#         # 'listings': listings,
+#     }
+#     return render(request, 'listings/table-test.html', context)
 
 
 # index with django_filters
