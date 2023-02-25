@@ -7,7 +7,6 @@ from django.db.utils import OperationalError
 # listings = Listing.objects.all()
 
 #########################################################
-
 from django.apps import apps
 from django.db.utils import OperationalError
 
@@ -17,17 +16,38 @@ try:
     listings = Listing.objects.all()
     units_choices = {}
     sorted_units_keys = []
-    # if listings:
     for listing in listings:
         if listing.unit not in sorted_units_keys:
             sorted_units_keys.append(listing.unit)
     sorted_units_keys.sort()
 
-    for listing in sorted_units_keys:
-        if listing not in units_choices.keys():
-            units_choices[str(listing)] = listing
-except (OperationalError, LookupError):
+    if sorted_units_keys:
+        for listing in sorted_units_keys:
+            if listing not in units_choices.keys():
+                units_choices[str(listing)] = listing
+except (OperationalError, LookupError, IndexError):
     pass
+
+# from django.apps import apps
+# from django.db.utils import OperationalError
+#
+# Listing = apps.get_model('listings', 'Listing')
+#
+# try:
+#     listings = Listing.objects.all()
+#     units_choices = {}
+#     sorted_units_keys = []
+#     # if listings:
+#     for listing in listings:
+#         if listing.unit not in sorted_units_keys:
+#             sorted_units_keys.append(listing.unit)
+#     sorted_units_keys.sort()
+#
+#     for listing in sorted_units_keys:
+#         if listing not in units_choices.keys():
+#             units_choices[str(listing)] = listing
+# except (OperationalError, LookupError):
+#     pass
 
 
 # try:
