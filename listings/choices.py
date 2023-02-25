@@ -28,7 +28,7 @@ try:
                 units_choices[str(listing)] = listing
 except (OperationalError, ProgrammingError, LookupError, IndexError):
     try:
-        call_command('makemigrations', 'myapp')
+        call_command('makemigrations', 'listings')
         call_command('migrate')
     except (OperationalError, ProgrammingError):
         pass
