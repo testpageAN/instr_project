@@ -17,5 +17,6 @@ urlpatterns = [
     # path('remove/<int:pk>', ListingDeleteView.as_view(), name='remove'),
     path('<int:listing_id>/create-report', views.create_report, name='create-report'),
     path('<int:listing_id>/upload-report', views.upload_report, name='upload-report'),
+
 ]
 

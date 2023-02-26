@@ -2,6 +2,7 @@ from django.conf import settings
 from .models import Listing
 import datetime
 from datetime import date
+from datetime import datetime
 from django.core.paginator import Paginator
 from .my_functions import update_next_check, update_last_checked, update_date_appearance
 from .choices import units_choices, blocks_choices, control_users, types_choices, special_types_choices, \
@@ -19,6 +20,8 @@ from openpyxl import Workbook, load_workbook
 import pathlib
 
 from .filters import ListingFilter
+import csv
+from django.shortcuts import render
 
 # from django_tables2 import SingleTableView
 # from .tables import ListingTable
@@ -623,5 +626,7 @@ def create_report(request, listing_id):
 # https://code.djangoproject.com/attachment/ticket/25756/multiple.py
 
 ################################################################################################################
+
+
 
 

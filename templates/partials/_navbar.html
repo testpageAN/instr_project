@@ -54,6 +54,14 @@
 {#                <a class="nav-link"  href="{% url 'table-test' %}">Table Test</a>#}
 {#            {% endif %}#}
 {#        </li>#}
+
+              <li class="nav-item">
+                    {% if 'import-data' in request.path %}
+                        <a class="nav-link active"  href="{% url 'import-data' %}"><b>Import Data</b></a>
+                    {% else %}
+                        <a class="nav-link"  href="{% url 'import-data' %}">Import Data</a>
+                    {% endif %}
+                </li>
       </ul>
 
 

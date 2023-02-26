@@ -8,6 +8,12 @@ from datetime import timedelta
 from listings.choices import units_choices, blocks_choices
 
 
+import csv
+# from datetime import datetime
+from django.shortcuts import render
+from listings.models import Listing
+
+
 def index(request):
     listings = Listing.objects.order_by('-next_check').filter(is_active=True)
     update_next_check(listings)
@@ -35,3 +41,37 @@ def about(request):
         'realtors': realtors
     }
     return render(request, 'pages/about.html', context)
+
+
+def import_data(request):
+    # if request.method == "POST":
+    #     csv_file = request.FILES["csv_file"]
+    #     decoded_file = csv_file.read().decode("utf-8")
+    #     io_string = io.StringIO(decoded_file)
+    #     reader = csv.DictReader(io_string)
+    #     for row in reader:
+    #         listing = Listing.objects.create(
+    #             realtor_id=row["realtor_id"],
+    #             tag=row["tag"],
+    #             block=row["block"],
+    #             unit=row["unit"],
+    #             description=row["description"],
+    #             type=row["type"],
+    #             detailed_type=row["detailed_type"],
+    #             special_type=row["special_type"],
+    #             lrv=row["lrv"],
+    #             urv=row["urv"],
+    #             units=row["units"],
+    #             manufacturer=row["manufacturer"],
+    #             model=row["model"],
+    #             serial_no=row["serial_no"],
+    #             system_type=row["system_type"],
+    #             equipment=row["equipment"],
+    #             project=row["project"],
+    #             interval=row["interval"],
+    #             last_checked=datetime.now(),
+    #             next_check=row["next_check"],
+    #             is_active=row["is_active"],
+    #             history=row["history"],
+    #         )
+    return render(request, "pages/import-data.html")
