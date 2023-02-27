@@ -93,7 +93,7 @@ def index(request):
     update_next_check(listings)
     ##################
 
-    paginator = Paginator(listings, 4)
+    paginator = Paginator(listings, 25)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
 
