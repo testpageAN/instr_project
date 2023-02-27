@@ -85,6 +85,7 @@ def import_data(request):
                         history=row["history"],
                     )
             # redirect to listings page upon successful import
+            messages.success(request, f'Listings was UPDATED')
             return redirect("listings")
         except Exception as e:
             messages.error(request, f"An error occurred while importing data: {e}")
