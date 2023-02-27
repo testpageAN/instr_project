@@ -472,7 +472,9 @@ def create_report(request, listing_id):
             comments = new_report.comments
             listing.history = old_history + '\n\n' + comments
             wb = Workbook()
-            wb = load_workbook(filename=r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample.xlsx')
+            # wb = load_workbook(filename=r'C:\Users\ALEXIS\OneDrive\PYTHON-LESSONS\DJANGO-ALL\instruments_project\media\excel_files\Certificate_sample.xlsx')
+            filepath = settings.MEDIA_ROOT + '/excel_files/Certificate_sample.xlsx'
+            wb = load_workbook(filename=filepath)
             ws = wb.active
             ws['F7'] = listing.tag
             ws['F9'] = listing.description
@@ -504,7 +506,7 @@ def create_report(request, listing_id):
             ws['O55'] = str(listing.realtor)
             ws['B48'] = comments
             # filepath = 'Certificate_sample10009.xlsx'
-            now = str(datetime.datetime.now())
+            # now = str(datetime.datetime.now())
             today = date.today()
             d1 = str(today.strftime("%Y/%m/%d"))
             # print(today)
