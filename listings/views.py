@@ -4,7 +4,7 @@ import datetime
 from datetime import date
 from datetime import datetime
 from django.core.paginator import Paginator
-from .my_functions import update_next_check, update_last_checked, update_date_appearance
+from .my_functions import update_next_check, update_last_checked, update_date_appearance, update_next_check_for_one
 from .choices import units_choices, blocks_choices, control_users, types_choices, special_types_choices, \
      measure_units_choices, realtors_choices, is_active_choices, intervals_choices
 from django.shortcuts import render, redirect, get_object_or_404
@@ -261,6 +261,7 @@ def edit(request, listing_id):
     form = ListingForm(request.POST or None, instance=listing)
     # save the data from the form and redirect to detail_view
     if form.is_valid():
+        update_next_check_for_one(listing)
         form.save()
         messages.success(request, f'{listing} was UPDATED')
         # return redirect("listing")
