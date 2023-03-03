@@ -1,13 +1,16 @@
+import pytz
 from django.shortcuts import render
 from django.http import HttpResponse
 from listings.models import Listing
-from listings.my_functions import update_next_check, update_date_appearance
+from listings.my_functions import update_next_check, update_date_appearance, update_next_check_for_one
 from realtors.models import Realtor
 import datetime
+from datetime import datetime
 from datetime import timedelta
+from django.utils.timezone import make_aware, get_default_timezone
 from listings.choices import units_choices, blocks_choices
-
-
+import pytz
+import dateutil.parser
 import csv
 import io
 # from datetime import datetime
@@ -55,38 +58,50 @@ def import_data(request):
             io_string = io.StringIO(decoded_file)
             reader = csv.DictReader(io_string)
             for row in reader:
-                # check if the listing already exists by tag
                 if Listing.objects.filter(tag=row["tag"]).exists():
                     messages.warning(request, f"Listing with tag {row['tag']} already exists in the database.")
                 else:
+                    # assuming the input string is in the format "YYYY-MM-DD HH:MM:SS+HH:MM"
+                    date_str = '2022-12-31 00:00:00+02:00'
+                    naive_date = datetime.strptime(date_str[:-6], '%Y-%m-%d %H:%M:%S')
+                    aware_date = pytz.timezone('Africa/Cairo').localize(naive_date)
+
                     listing = Listing.objects.create(
-                        realtor_id=row["realtor_id"],
-                        tag=row["tag"],
-                        block=row["block"],
-                        unit=row["unit"],
-                        description=row["description"],
-                        type=row["type"],
-                        detailed_type=row["detailed_type"],
-                        special_type=row["special_type"],
-                        lrv=row["lrv"],
-                        urv=row["urv"],
-                        units=row["units"],
-                        manufacturer=row["manufacturer"],
-                        model=row["model"],
-                        serial_no=row["serial_no"],
-                        system_type=row["system_type"],
-                        equipment=row["equipment"],
-                        project=row["project"],
-                        interval=row["interval"],
-                        # last_checked=datetime.now(),
-                        last_checked=row["last_checked"],
-                        next_check=row["next_check"],
-                        is_active=row["is_active"],
-                        history=row["history"],
-                    )
+                            realtor_id=row["realtor_id"],
+                            tag=row["tag"],
+                            block=row["block"],
+                            unit=row["unit"],
+                            description=row["description"],
+                            type=row["type"],
+                            detailed_type=row["detailed_type"],
+                            special_type=row["special_type"],
+                            lrv=row["lrv"],
+                            urv=row["urv"],
+                            units=row["units"],
+                            manufacturer=row["manufacturer"],
+                            model=row["model"],
+                            serial_no=row["serial_no"],
+                            system_type=row["system_type"],
+                            equipment=row["equipment"],
+                            project=row["project"],
+                            interval=row["interval"],
+                            # last_checked=datetime.now(),
+                            # last_checked=row["last_checked"],
+                            last_checked=aware_date,  # use the converted datetime object
+                            # next_check=row["next_check"],
+                            is_active=row["is_active"],
+                            history=row["history"],
+                        )
             # redirect to listings page upon successful import
+            #         update_next_check_for_one(listing)
             messages.success(request, f'Listings was UPDATED')
+            # listings = Listing.objects.all()
+            # update_next_check(listings)
+            # context = {
+            #     "listings": listings,
+            # }
             return redirect("listings")
+            # return render(request, "listings/listings.html", context)
         except Exception as e:
             messages.error(request, f"An error occurred while importing data: {e}")
     return render(request, "pages/import-data.html")

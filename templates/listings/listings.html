@@ -4,8 +4,14 @@
 
 {% load crispy_forms_tags %}
 
+{% load tz %}
+{% now "Y-m-d" %}
+
+
 
 {% block content %}
+
+
 
 {#<h2>ALL LISTINGS</h2>#}
     <!-- Breadcrumb -->
@@ -127,6 +133,7 @@
 
             <tbody>
             {% if listings %}
+                {% now "Y-m-d" as today %}
                {% for listing in listings %}
                     <tr class="table-light">
 {#                      <th scope="row">{{ listing.id }}</th>#}
@@ -149,11 +156,17 @@
                         </td>
                         <td>{{ listing.last_checked }}</td>
                         <td>{{ listing.interval }}</td>
-                        <td> {{ listing.next_check }}</td>
-{#                        <td style="font-weight: bold;#}
-{#                                   text-align: right;#}
-{#                                   background-color: rgba(234,209,143,0.99);#}
-{#                                   color: white;">{{ listing.next_check }}</td>#}
+{#                        <td> {{ listing.next_check }}</td>#}
+{#                            δεν λειτουργει#}
+                            {% if listing.next_check < today %}
+                                <td style="background-color: rgba(255, 0, 0, 1); color: white;">{{ listing.next_check }}</td>
+                            {% else %}
+                                <td>{{ listing.next_check }}</td>
+                            {% endif %}
+
+
+
+
                         <td><a href="{% url 'listing' listing.id %}" class="btn btn-primary btn-block">Details</a></td>
                     </tr>
             {% endfor %}

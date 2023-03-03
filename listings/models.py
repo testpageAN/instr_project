@@ -49,7 +49,8 @@ class Listing(models.Model):
 
 class Report(models.Model):
     id = models.AutoField(primary_key=True)
-    listing = models.ForeignKey(Listing, related_name='reports', on_delete=DO_NOTHING, null=True)
+    # listing = models.ForeignKey(Listing, related_name='reports', on_delete=DO_NOTHING, null=True)
+    listing = models.ForeignKey(Listing, related_name='reports', on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     date_created = models.DateTimeField(default=datetime.now)
     file = models.FileField(blank=True, upload_to='reports_files/%Y/%m/%d/', verbose_name="Files")#, validators=[validate_file_size], help_text="Allowed size is 5MB")
@@ -73,7 +74,8 @@ class FullReport(models.Model):
     )
 
     id = models.AutoField(primary_key=True)
-    listing = models.ForeignKey(Listing, related_name='fullreports', on_delete=DO_NOTHING, null=True)
+    # listing = models.ForeignKey(Listing, related_name='fullreports', on_delete=DO_NOTHING, null=True)
+    listing = models.ForeignKey(Listing, related_name='fullreports', on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     date_created = models.DateTimeField(default=datetime.now)
     file = models.FileField(blank=True, upload_to='reports_files/%Y/%m/%d/', verbose_name="Files", max_length=255) #, storage='reports_files/%Y/%m/%d/')
