@@ -10,7 +10,7 @@ from datetime import timedelta
 from django.utils.timezone import make_aware, get_default_timezone
 from listings.choices import units_choices, blocks_choices
 import pytz
-import dateutil.parser
+
 import csv
 import io
 # from datetime import datetime
