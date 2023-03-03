@@ -27,7 +27,9 @@ def index(request):
 
     due_listings = []
     for listing in listings:
-        listing.delta_days = (listing.next_check.date() - datetime.date.today()).days
+        # listing.delta_days = (listing.next_check.date() - datetime.date.today()).days
+        listing.delta_days = (listing.next_check.date() - datetime.today().date()).days
+
         if 0 <= listing.delta_days <= 30:
             due_listings.append(listing)
             print(listing.next_check)
