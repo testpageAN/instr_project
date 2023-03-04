@@ -87,6 +87,7 @@ def index(request):
     # listings = Listing.objects.all().order_by('tag')
     update_next_check(listings)
 
+
     ###################
     # myFilter = ListingFilter(request.GET, queryset=listings)
     # listings = myFilter.qs
@@ -99,6 +100,11 @@ def index(request):
 
     update_next_check(listings)
     update_date_appearance(listings)
+    listings = Listing.objects.all()
+    for listing in listings:
+        update_next_check_for_one(listing)
+        listing.save()
+        # print(listing.tag, listing.id, listing.next_check)
 
     context = {
         'listings': paged_listings,
@@ -629,7 +635,6 @@ def create_report(request, listing_id):
 # https://code.djangoproject.com/attachment/ticket/25756/multiple.py
 
 ################################################################################################################
-
 
 
 

@@ -156,13 +156,13 @@
                         </td>
                         <td>{{ listing.last_checked }}</td>
                         <td>{{ listing.interval }}</td>
-{#                        <td> {{ listing.next_check }}</td>#}
+                        <td> {{ listing.next_check }}</td>
 {#                            δεν λειτουργει#}
-                            {% if listing.next_check < today %}
-                                <td style="background-color: rgba(255, 0, 0, 1); color: white;">{{ listing.next_check }}</td>
-                            {% else %}
-                                <td>{{ listing.next_check }}</td>
-                            {% endif %}
+{#                            {% if listing.next_check < today %}#}
+{#                                <td style="background-color: rgba(255, 0, 0, 1); color: white;">{{ listing.next_check }}</td>#}
+{#                            {% else %}#}
+{#                                <td>{{ listing.next_check }}</td>#}
+{#                            {% endif %}#}
 
 
 
