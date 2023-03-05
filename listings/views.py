@@ -106,8 +106,24 @@ def index(request):
         listing.save()
         # print(listing.tag, listing.id, listing.next_check)
 
+    due_listings = []
+    over_due_listings = []
+    for listing in listings:
+        # listing.delta_days = (listing.next_check.date() - datetime.date.today()).days
+        listing.delta_days = (listing.next_check.date() - datetime.today().date()).days
+
+        if 0 <= listing.delta_days <= 30:
+            due_listings.append(listing)
+            #print(listing.next_check)
+        elif 0 > listing.delta_days:
+            over_due_listings.append(listing)
+
+    update_date_appearance(due_listings)
+
     context = {
         'listings': paged_listings,
+        'over_due_listings': over_due_listings,
+        'due_listings': due_listings,
         # 'myFilter': myFilter,
         # 'listings': listings,
     }
